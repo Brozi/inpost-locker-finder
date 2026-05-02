@@ -56,8 +56,8 @@ class InPostFetcher:
                 location_description_2=point['location_description_2'],
                 address_line1=point.get('address', {})['line1'],
                 address_line2=point.get('address', {})['line2'],
-                address_details_city=points.get('address_details', {})['city'],
-                address_details_post_code=points.get('address_details', {})['post_code'],
+                address_details_city=point.get('address_details', {})['city'],
+                address_details_post_code=point.get('address_details', {})['post_code'],
             )
             for point in points
         ]
