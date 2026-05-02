@@ -1,6 +1,5 @@
-import pytest
 from unittest.mock import patch
-from src.ilf.api import get_lockers, BASE_URL
+from src.ilf.api import InPostFetcher,Locker
 MOCK_RESPONSE = {
     "items": [
         {
@@ -33,15 +32,21 @@ def test_get_lockers(mock_get_lockers):
     mock_get_lockers.return_value.json.return_value = MOCK_RESPONSE
     #When the code calls get_lockers dont connect to the internet, but
     #just go with MOCK_RESPONSE
-    result = get_lockers("Pisary")
+    fetcher = InPostFetcher()
+    #initialize an instance of the InPostFetcher class
+    result = fetcher.get_lockers("Pisary")
     #act - call the real function and give it the MOCK_RESPONSE
     assert len(result) == 1
-    assert result[0]["name"] == "PIS1"
+    #assert that the length of the result is 1
+    assert isinstance(result[0], Locker)
+    #assert that the object returned by the function is
+    #an instance of the class Locker
 
     mock_get_lockers.assert_called_once_with(
-        BASE_URL,
+        fetcher.BASE_URL,
         params = {
             "city": "Pisary",
+            'status': 'Operating',
         }
     )
     #check whether the actual api.py built the dictionary with the string "Pisary",
