@@ -12,9 +12,11 @@ class ExitCode(IntEnum):
     API_ERROR = 1
     NO_RESULTS = 2
     NETWORK_ERROR = 3
+#defining error codes
 
 ERROR_MESSAGES = {
     ExitCode.API_ERROR: "The InPost server returned an unexpected response",
     ExitCode.NO_RESULTS: "No lockers were found with given parameters",
     ExitCode.NETWORK_ERROR: "Could not connect to the internet. Please check your internet connection and try again"
 }
+#defining error messages for the codes
