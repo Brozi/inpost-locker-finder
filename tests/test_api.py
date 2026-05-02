@@ -24,7 +24,7 @@ MOCK_RESPONSE = {
     ]
 }
 
-@patch("src.ilf.api.get_lockers")
+@patch("src.ilf.api.requests.get")
 #when the function runs, find get_lockers and replace it with a dummy object
 def test_get_lockers(mock_get_lockers):
     #pass the dummy object into the function as mock_get_lockers
