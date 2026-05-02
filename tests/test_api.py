@@ -44,3 +44,5 @@ def test_get_lockers(mock_get_lockers):
             "city": "Pisary",
         }
     )
+    #check whether the actual api.py built the dictionary with the string "Pisary",
+    #before sending it to BASE_URL
