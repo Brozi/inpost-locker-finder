@@ -3,15 +3,24 @@ from src.ilf import __app_name__, __version__, cli
 from src.ilf.cli import app
 from src.ilf.locker import Locker
 
+from unittest.mock import patch
+
 runner = CliRunner()
 
+MOCK_LOCKERS = [
+    Locker('PIS02', 'Operating', True, '24/7', True, ' ', ' ', ' ',
+           'Kasztanowa 46/2', '32-064 Pisary', 'Pisary', '32-064')
+]
+
 def test_version():
+    """Test that the version command actually works"""
     result = runner.invoke(app, ['--version'])
 
     assert result.exit_code == 0
     assert f"{__app_name__} v{__version__}" in result.stdout
 
 def test_help():
+    """Test help command"""
     result = runner.invoke(app, ['--help'], prog_name=__app_name__)
     assert result.exit_code == 0
 
@@ -19,8 +28,13 @@ def test_help():
 
     assert "inpost lockers" in result.stdout
 
-def test_find():
+@patch("src.ilf.cli.fetcher.get_operating_lockers")
+def test_find_success(mock_get_operating_lockers):
+    """Test find command success"""
+    mock_get_operating_lockers.return_value = MOCK_LOCKERS
     result = runner.invoke(app, ['find', 'Pisary'])
     assert result.exit_code == 0
 
-    assert isinstance(result.stdout, Locker)
+    assert "PIS02" in result.stdout
+
+    assert "Kasztanowa 46/2" in result.stdout
