@@ -90,11 +90,12 @@ class Locker:
                 opening_hours = "24/7"
             else:
 
-                hours_ext = point.get('opening_hours_extended', {})
+                hours_ext = point.get('operating_hours_extended', {})
                 customer_hours = hours_ext.get('customer', {})
 
                 def get_hours(day:str) -> str:
-                    shifts = customer_hours.get(day, [])
+                    shifts = customer_hours.get(day, {})
+
                     if not shifts:
                         return "Closed"
 
