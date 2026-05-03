@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 @dataclass
 class Locker:
-    """Represents a single parcel locker"""
+    """Represents a single parcel locker. The attributes represent all
+    fields that the program is going to use.
+    """
     name: str
     status: str
     location_247: bool
