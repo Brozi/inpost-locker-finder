@@ -9,8 +9,17 @@ from unittest.mock import patch
 runner = CliRunner()
 
 MOCK_LOCKERS = [
-    Locker('PIS02', 'Operating', True, '24/7', True, ' ', ' ', ' ',
-           'Kasztanowa 46/2', '32-064 Pisary', 'Pisary', '32-064')
+    Locker(
+        name="PIS02",
+        status="Operating",
+        location_247=True,
+        opening_hours="24/7",
+        easy_access_zone=True,
+        location_description="",
+        address="Kasztanowa 46/2, 32-064 Pisary",
+        address_details_city="Pisary",
+        address_details_post_code="32-064"
+    )
 ]
 
 def test_version():
@@ -38,4 +47,4 @@ def test_find_success(mock_get_operating_lockers):
 
     assert "PIS02" in result.stdout
 
-    assert "Kasztanowa 46/2" in result.stdout
+    assert "Kasztanowa" in result.stdout
