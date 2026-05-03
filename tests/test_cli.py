@@ -1,6 +1,7 @@
 from typer.testing import CliRunner
 from src.ilf import __app_name__, __version__, cli
 from src.ilf.cli import app
+from src.ilf.locker import Locker
 
 runner = CliRunner()
 
@@ -18,4 +19,8 @@ def test_help():
 
     assert "inpost lockers" in result.stdout
 
-def test_find()
+def test_find():
+    result = runner.invoke(app, ['find', 'Pisary'])
+    assert result.exit_code == 0
+
+    assert isinstance(result.stdout, Locker)
