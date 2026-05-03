@@ -23,7 +23,7 @@ def main(
     )
 ) -> None:
     """
-    inpost-locker-finder (ilf or locker finder for short): A tool for finding
+    inpost-locker-finder (ilf or locker-finder for short): A tool for finding
     nearest inpost lockers.
     For help type ilf <command> --help/-h
     """
