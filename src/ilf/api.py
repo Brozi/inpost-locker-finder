@@ -7,6 +7,7 @@ class InPostFetcher:
     """Handles communication with inpost api, and the data extraction from
     the api response"""
     BASE_URL = 'https://api-global-points.easypack24.net/v1/points'
+    statuses = ['Operating', 'Overloaded']
 
     def get_operating_lockers(self, city:str) -> list[Locker]:
         """
@@ -14,9 +15,10 @@ class InPostFetcher:
         :param city: A string containg the city name
         :return: a list containing all lockers assigned to the city
         """
+
         params = {
             'city': city,
-            'status': 'Operating'
+            'status': InPostFetcher.statuses
         }
         #define the parameters of the api call
         response = requests.get(self.BASE_URL, params=params)
