@@ -10,7 +10,7 @@ fetcher = InPostFetcher()
 def find(city:str):
     """Find 3 closest operating InPost lockers"""
     try:
-        lockers = fetcher.get_lockers(city)
+        lockers = fetcher.get_operating_lockers(city)
 
         if not lockers:
             typer.secho(ERROR_MESSAGES[ExitCode.NO_RESULTS], fg=typer.colors.YELLOW)

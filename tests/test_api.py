@@ -34,7 +34,7 @@ def test_get_lockers(mock_get_lockers):
     #just go with MOCK_RESPONSE
     fetcher = InPostFetcher()
     #initialize an instance of the InPostFetcher class
-    result = fetcher.get_lockers("Pisary")
+    result = fetcher.get_operating_lockers("Pisary")
     #act - call the real function and give it the MOCK_RESPONSE
     assert len(result) == 1
     #assert that the length of the result is 1

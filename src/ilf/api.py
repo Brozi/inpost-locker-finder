@@ -8,7 +8,7 @@ class InPostFetcher:
     the api response"""
     BASE_URL = 'https://api-global-points.easypack24.net/v1/points'
 
-    def get_lockers(self, city:str) -> list[Locker]:
+    def get_operating_lockers(self, city:str) -> list[Locker]:
         """
         Return the list of all lockers for a given city
         :param city: A string containg the city name
