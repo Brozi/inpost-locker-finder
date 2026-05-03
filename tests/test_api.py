@@ -46,7 +46,7 @@ def test_get_lockers(mock_get_lockers):
         fetcher.BASE_URL,
         params = {
             "city": "Pisary",
-            'status': 'Operating',
+            'status': InPostFetcher.statuses
         }
     )
     #check whether the actual api.py built the dictionary with the string "Pisary",
