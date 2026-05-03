@@ -1,9 +1,11 @@
-from format import print_lockers_table
+from src.ilf.format import print_lockers_table
 from src.ilf.api import InPostFetcher
 from src.ilf import ExitCode, ERROR_MESSAGES
 from src.ilf import __app_name__, __version__
+
 from typing import Optional
 import typer
+
 app = typer.Typer(no_args_is_help=True)
 fetcher = InPostFetcher()
 
@@ -16,11 +18,14 @@ def find(city:str):
         if not lockers:
             typer.secho(ERROR_MESSAGES[ExitCode.NO_RESULTS], fg=typer.colors.YELLOW)
             raise typer.Exit(code=ExitCode.NO_RESULTS)
-        typer.secho(f"Success! Found {len(lockers)} lockers in {city}.", fg=typer.colors.GREEN)
 
         print_lockers_table(lockers, city)
+
+        typer.secho(f"Success! Found {len(lockers)} lockers in {city}.", fg=typer.colors.GREEN)
+
     except Exception:
         typer.secho(ERROR_MESSAGES[ExitCode.UNEXPECTED_ERROR], fg=typer.colors.RED)
+
         raise typer.Exit(code=ExitCode.UNEXPECTED_ERROR)
 
 def _version_callback(value: bool):
