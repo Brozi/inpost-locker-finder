@@ -16,7 +16,7 @@ def find(city:str):
             typer.secho(ERROR_MESSAGES[ExitCode.NO_RESULTS], fg=typer.colors.YELLOW)
             raise typer.Exit(code=ExitCode.NO_RESULTS)
         typer.secho(f"Success! Found {len(lockers)} lockers in {city}.", fg=typer.colors.GREEN)
-    except Exception as e:
+    except Exception:
         typer.secho(ERROR_MESSAGES[ExitCode.UNEXPECTED_ERROR], fg=typer.colors.RED)
         raise typer.Exit(code=ExitCode.UNEXPECTED_ERROR)
 

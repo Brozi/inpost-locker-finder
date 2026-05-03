@@ -17,3 +17,5 @@ def test_help():
     assert f"Usage: {__app_name__}" in result.stdout
 
     assert "inpost lockers" in result.stdout
+
+def test_find()
