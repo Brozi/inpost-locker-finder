@@ -1,4 +1,5 @@
 from typer.testing import CliRunner
+
 from src.ilf import __app_name__, __version__, cli
 from src.ilf.cli import app
 from src.ilf.locker import Locker
