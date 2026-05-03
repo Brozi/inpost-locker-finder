@@ -19,25 +19,11 @@ def print_lockers_table(lockers: list[Locker], city:str) -> None:
 
 
     for locker in lockers[:3]:
-        desc_1 = locker.location_description
-        desc_2 = locker.location_description_1
-        desc_3 = locker.location_description_2
-
-        raw_desc = [desc_1, desc_2, desc_3]
-
-        cleaned_desc = ", ".join(filter(None, raw_desc))
-
-        if not locker.opening_hours:
-            if locker.location_247:
-                locker.opening_hours = "24/7"
-            locker.opening_hours = 'No data'
-
-
         table.add_row(
             locker.name,
             locker.status,
-            f"{locker.address_line1}, {locker.address_line2}",
-            cleaned_desc,
+            locker.address,
+            locker.location_description,
             str(locker.easy_access_zone),
             locker.opening_hours,
         )

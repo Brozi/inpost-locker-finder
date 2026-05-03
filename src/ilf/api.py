@@ -27,23 +27,7 @@ class InPostFetcher:
         #stop the program when the response in ['404', '500'] and raise exception
         data = response.json()
         #convert the json string into a python dict
-        points = data.get('items', [])
+        raw_points = data.get('items', [])
         #return everything inside the 'items' key from the data dict.
         #If the 'items' key missing/empty, return empty list
-        return [
-            Locker(
-                name=point['name'],
-                status=point['status'],
-                location_247=point['location_247'],
-                opening_hours=point['opening_hours'],
-                easy_access_zone=point['easy_access_zone'],
-                location_description=point['location_description'],
-                location_description_1=point['location_description_1'],
-                location_description_2=point['location_description_2'],
-                address_line1=point.get('address', {})['line1'],
-                address_line2=point.get('address', {})['line2'],
-                address_details_city=point.get('address_details', {})['city'],
-                address_details_post_code=point.get('address_details', {})['post_code'],
-            )
-            for point in points
-        ]
+        return [Locker.from_api_dict(raw_point)for raw_point in raw_points]
