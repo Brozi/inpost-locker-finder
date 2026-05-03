@@ -14,6 +14,28 @@ class Locker:
     address_details_city: str
     address_details_post_code: str
 
+    @classmethod
+    def from_api_dict(cls, point: dict) -> "Locker":
+        """Takes a raw data (dict) from the api and returns a Locker object, while
+        cleaning any None or missing values.
+        :param cls: the Locker class
+        :param point: A single point from the api response
+        :return: a Locker object with cleaned data
+        """
+
+        return cls(
+            name=point['name'],
+            status=point['status'],
+            location_247=point['location_247'],
+            opening_hours=cls._parse_schedule(point),
+            easy_access_zone=point['easy_access_zone'],
+            location_description=cls._clean_description(point),
+            address=cls._combine_address(point),
+            address_details_city=point.get('address_details', {})['city'],
+            address_details_post_code=point.get('address_details', {})['post_code'],
+        )
+
+
     @staticmethod
     def _clean_description(point:dict) -> str:
         """
@@ -86,26 +108,3 @@ class Locker:
                 opening_hours = f"MON-FRI: {weekday_hours}\nSAT-SUN: {weekend_hours}"
 
         return opening_hours
-
-
-
-    @classmethod
-    def from_api_dict(cls, point: dict) -> "Locker":
-        """Takes a raw data (dict) from the api and returns a Locker object, while
-        cleaning any None or missing values.
-        :param cls: the Locker class
-        :param point: A single point from the api response
-        :return: a Locker object with cleaned data
-        """
-
-        return cls(
-            name=point['name'],
-            status=point['status'],
-            location_247=point['location_247'],
-            opening_hours=cls._parse_schedule(point),
-            easy_access_zone=point['easy_access_zone'],
-            location_description=cls._clean_description(point),
-            address=cls._combine_address(point),
-            address_details_city=point.get('address_details', {})['city'],
-            address_details_post_code=point.get('address_details', {})['post_code'],
-        )
