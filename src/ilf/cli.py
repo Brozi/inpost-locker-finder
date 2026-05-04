@@ -50,8 +50,13 @@ def find(
     try:
         typer.secho("Fetching lockers...", fg=typer.colors.BRIGHT_YELLOW, err=True)
 
-        lockers = fetcher.get_operating_lockers(city=search_city, post_code=search_postcode)
-        found_lockers = len(lockers)
+        api_post_code = search_postcode if not search_city else None
+        #if search city empty, api_post_code is post_code
+        #this allows the program to query the endpoint based on post_code
+        #improves speed
+
+        lockers = fetcher.get_operating_lockers(city=search_city, post_code=api_post_code)
+
         if not lockers:
             #if there are no lockers
             typer.secho(ERROR_MESSAGES[ExitCode.NO_RESULTS], fg=typer.colors.YELLOW, err=True)
