@@ -7,7 +7,9 @@ from typing import Optional
 import typer
 
 app = typer.Typer(no_args_is_help=True,
-                  context_settings={"help_option_names": ["-h", "--help"]})
+                  context_settings={"help_option_names": ["-h", "--help"]},
+                  rich_markup_mode="markdown",
+                  add_completion=False)
 fetcher = InPostFetcher()
 
 @app.command()
@@ -18,12 +20,17 @@ def find(
         post_code: str = typer.Option(None, "--post-code", "-p", help="Filter by postal code. Example: --post-code 30, --post-code 31-876"),
         street: str = typer.Option(None, "--street", "-s", help="Filter by street. Example: --street Karmelicka"),
 ):
-    """Find 3 closest operating InPost lockers. \b
-    This command downloads all available Inpost lockers for the specified city. By default it sorts them by postal code, and 24/7 availability, displaying the first 3 results.
+    """Find operating Inpost lockers in a given city.
 
-    You can use the filtering flags (-p, -s) to filter the results of the search. You can also use them together.
-    The code can be any number of digits (first one, first two or the entire code), and the street can also be any string, as well
-    as the entire address.
+    This command downloads all available Inpost lockers for the specified city.\\
+    \\
+    By default it sorts them by postal code, and 24/7 availability, displaying the first 3 results.\\
+    \\
+    You can use the filtering flags (-p, -s) to filter the results of the search. You can also use them together.\\
+    \\
+    The code can be any number of digits (first one, first two or the entire code).\\
+    \\
+    The street can also be any string, as well as the entire address.
     """
     """
     :param city: the name of the city to find lockers for
@@ -96,6 +103,5 @@ def main(
     """
     inpost-locker-finder (ilf or locker-finder for short): A tool for finding
     nearest inpost lockers.
-    For help type ilf <command> --help/-h
     """
     return
