@@ -14,23 +14,34 @@ fetcher = InPostFetcher()
 def find(
         city:str,
         limit: int = typer.Option(3, "--limit", "-l", help="Number of lockers to display, default=3"),
-        show_all: bool = typer.Option(False, "--all", "-a", help="Show all lockers found" )
+        show_all: bool = typer.Option(False, "--all", "-a", help="Show all lockers found" ),
+        post_code: str = typer.Option(None, "--post-code", "-p", help="Filter by postal code"),
 ):
     """Find 3 closest operating InPost lockers
     :param city: the name of the city to find lockers for
     :param limit: the number of lockers to display, default=3
     :param show_all: flag to show all lockers found
+    :param post_code: filter lockers by postal code
     """
     try:
-        typer.secho("Fetching lockers...", fg=typer.colors.YELLOW)
+        typer.secho("Fetching lockers...", fg=typer.colors.BRIGHT_YELLOW)
         lockers = fetcher.get_operating_lockers(city)
 
         if not lockers:
+        #if there are no lockers
             typer.secho(ERROR_MESSAGES[ExitCode.NO_RESULTS], fg=typer.colors.YELLOW)
             raise typer.Exit(code=ExitCode.NO_RESULTS)
 
         if show_all:
+        #if user wants to get all lockers
             limit = len(lockers)
+
+        if post_code:
+            lockers = [loc for loc in lockers if loc.address_details_post_code.startswith(post_code)]
+
+            if not lockers:
+                typer.secho(f"No lockers found in {city} for postal code {post_code}", fg=typer.colors.YELLOW)
+                raise typer.Exit(code=ExitCode.NO_RESULTS)
 
         lockers.sort(key=lambda locker: (locker.address_details_post_code, locker.location_247)
                      ,reverse=False
@@ -42,10 +53,13 @@ def find(
         displayed_count = min(len(lockers), limit)
         typer.secho(f"Success! Found {len(lockers)} lockers in {city}.", fg=typer.colors.GREEN)
         typer.secho(f"Displaying {displayed_count} lockers.", fg=typer.colors.GREEN)
+        raise typer.Exit(ExitCode.SUCCESS)
 
+    except typer.Exit:
+
+        raise
     except Exception:
         typer.secho(ERROR_MESSAGES[ExitCode.UNEXPECTED_ERROR], fg=typer.colors.RED)
-
         raise typer.Exit(code=ExitCode.UNEXPECTED_ERROR)
 
 def _version_callback(value: bool):
