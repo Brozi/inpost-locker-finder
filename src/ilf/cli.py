@@ -13,11 +13,19 @@ fetcher = InPostFetcher()
 @app.command()
 def find(
         city:str,
-        limit: int = typer.Option(3, "--limit", "-l", help="Number of lockers to display, default=3"),
-        show_all: bool = typer.Option(False, "--all", "-a", help="Show all lockers found" ),
-        post_code: str = typer.Option(None, "--post-code", "-p", help="Filter by postal code"),
+        limit: int = typer.Option(3, "--limit", "-l", help="Number of lockers to display. Example: --limit 10"),
+        show_all: bool = typer.Option(False, "--all", "-a", help="Show all lockers found"),
+        post_code: str = typer.Option(None, "--post-code", "-p", help="Filter by postal code. Example: --post-code 30, --post-code 31-876"),
+        street: str = typer.Option(None, "--street", "-s", help="Filter by street. Example: --street Karmelicka"),
 ):
-    """Find 3 closest operating InPost lockers
+    """Find 3 closest operating InPost lockers. \b
+    This command downloads all available Inpost lockers for the specified city. By default it sorts them by postal code, and 24/7 availability, displaying the first 3 results.
+
+    You can use the filtering flags (-p, -s) to filter the results of the search. You can also use them together.
+    The code can be any number of digits (first one, first two or the entire code), and the street can also be any string, as well
+    as the entire address.
+    """
+    """
     :param city: the name of the city to find lockers for
     :param limit: the number of lockers to display, default=3
     :param show_all: flag to show all lockers found
@@ -42,6 +50,9 @@ def find(
             if not lockers:
                 typer.secho(f"No lockers found in {city} for postal code {post_code}", fg=typer.colors.YELLOW)
                 raise typer.Exit(code=ExitCode.NO_RESULTS)
+
+        if street:
+            lockers = [loc for loc in lockers if street.lower() in loc.address_details_street.lower()]
 
         lockers.sort(key=lambda locker: (locker.address_details_post_code, locker.location_247)
                      ,reverse=False
