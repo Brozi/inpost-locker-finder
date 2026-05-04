@@ -9,7 +9,7 @@ from src.ilf.locker import Locker
 def print_lockers_table(lockers: list[Locker], location: str, limit: int = 3 ) -> None:
     """ Prints the lockers in a nice looking table
     :param lockers: the list being an instance of the class Locker
-    :param city: the name of the city
+    :param location: the city or the post code to search
     :param limit: the maximum number of lockers to print, default=3
     """
     console = Console()

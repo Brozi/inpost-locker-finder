@@ -42,6 +42,7 @@ def find(
     :param show_all: flag to show all lockers found
     :param post_code: filter lockers by postal code
     """
+    location = location.title()
     search_city = None
     search_postcode = post_code
 
