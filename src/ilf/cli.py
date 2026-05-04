@@ -19,8 +19,10 @@ def find(
     """Find 3 closest operating InPost lockers
     :param city: the name of the city to find lockers for
     :param limit: the number of lockers to display, default=3
+    :param show_all: flag to show all lockers found
     """
     try:
+        typer.secho("Fetching lockers...", fg=typer.colors.YELLOW)
         lockers = fetcher.get_operating_lockers(city)
 
         if not lockers:
@@ -29,6 +31,11 @@ def find(
 
         if show_all:
             limit = len(lockers)
+
+        lockers.sort(key=lambda locker: (locker.address_details_post_code, locker.location_247)
+                     ,reverse=False
+        )
+        #sort lockers by post code and location 24/7 if
 
         print_lockers_table(lockers, city, limit=limit)
 

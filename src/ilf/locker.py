@@ -106,6 +106,6 @@ class Locker:
                 weekday_hours = get_hours('monday')
                 weekend_hours = get_hours('saturday')
 
-                opening_hours = f"MON-FRI: {weekday_hours}\nSAT-SUN: {weekend_hours}"
+                opening_hours = f"MON-FRI: {weekday_hours}, SAT-SUN: {weekend_hours}"
 
         return opening_hours
