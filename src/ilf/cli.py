@@ -18,20 +18,8 @@ app = typer.Typer(no_args_is_help=True,
 fetcher = InPostFetcher()
 
 @app.command(no_args_is_help=True,
-             epilog="""
-    **Examples:**
-    
-           
-    > `ilf find Kraków` (Finds default amount of lockers)
-    
-    
-    > `ilf find 31-876 --24h` (Finds 24/7 lockers in a specific postal code)
-    
-    
-    > `ilf find Warszawa -s "Złota" --all` (Finds all lockers on Złota street)
-
-
-             """)
+             epilog="**Examples:**\n\n\n\n* `ilf find Kraków` (Finds default amount of lockers)\n\n\n\n* `ilf find 31-876 --24h` (Finds 24/7 lockers in a specific postal code)\n\n\n\n* `ilf find Warszawa -s \"Złota\" --all` (Finds all lockers on Złota street)"
+             )
 def find(
         location:Optional[str] = typer.Argument(help="The name of the city or the postal code to search"),
         limit: int = typer.Option(15, "--limit", "-l", help="Number of lockers to display. **Example:** `--limit 10`", rich_help_panel="Display Options"),
@@ -45,14 +33,10 @@ def find(
     """Find operating Inpost lockers in a given city.
 
     This command downloads all available Inpost lockers for the specified city.\\
-    \\
     By default it sorts them by postal code, and 24/7 availability, displaying the first 3 results.\\
-    \\
     You can use the filtering flags (-p, -s) to filter the results of the search. You can also use them together.\\
-    \\
     The code can be any number of digits (first one, first two or the entire code).\\
-    \\
-    The street can also be any string, as well as the entire address.
+    The street can also be any string, as well as the entire address.\
     """
     """
     :param city: the name of the city to find lockers for
