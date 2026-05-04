@@ -85,11 +85,7 @@ def find(
 
         raise
 
-    except Exception as e:
-        import traceback
-        typer.secho(f"Debug traceback", fg=typer.colors.RED, err=True)
-        traceback.print_exc()
-
+    except Exception:
         typer.secho(ERROR_MESSAGES[ExitCode.UNEXPECTED_ERROR],
                     fg=typer.colors.RED,
                     err=True)
