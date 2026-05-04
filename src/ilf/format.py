@@ -46,4 +46,4 @@ def format_json(lockers: list[Locker]) -> str:
     }
     for locker in lockers
     ]
-    return json.dumps(lockers_dict, indent=2, ensure_ascii=False)
+    return json.dumps(lockers_dict, indent=2)
