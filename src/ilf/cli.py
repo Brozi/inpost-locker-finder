@@ -6,7 +6,8 @@ from src.ilf import __app_name__, __version__
 from typing import Optional
 import typer
 
-app = typer.Typer(no_args_is_help=True)
+app = typer.Typer(no_args_is_help=True,
+                  context_settings={"help_option_names": ["-h", "--help"]})
 fetcher = InPostFetcher()
 
 @app.command()
