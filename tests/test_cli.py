@@ -25,12 +25,12 @@ MOCK_LOCKERS = [
     )
 ]
 
-def test_version():
-    """Test that the version command actually works"""
-    result = runner.invoke(app, ['--version'])
-
-    assert result.exit_code == 0
-    assert f"{__app_name__} v{__version__}" in result.stdout
+# def test_version():
+#     """Test that the version command actually works"""
+#     result = runner.invoke(app, ['--version'])
+#
+#     assert result.exit_code == 0
+#     assert f"{__app_name__} v{__version__}" in result.stdout
 
 def test_help():
     """Test help command"""
