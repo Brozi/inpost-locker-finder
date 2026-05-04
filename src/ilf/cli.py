@@ -5,6 +5,9 @@ from src.ilf import ExitCode, ERROR_MESSAGES
 from src.ilf import __app_name__, __version__
 
 from typing import Optional
+from rich.console import Console
+err_console = Console(stderr=True)
+console = Console()
 import typer
 
 app = typer.Typer(no_args_is_help=True,
@@ -57,8 +60,8 @@ def find(
         #if search city empty, api_post_code is post_code
         #this allows the program to query the endpoint based on post_code
         #improves speed
-
-        lockers = fetcher.get_operating_lockers(city=search_city, post_code=api_post_code)
+        with err_console.status("[bold yellow]Fetching lockers from InPost...[/bold_yellow]", spinner="dots"):
+            lockers = fetcher.get_operating_lockers(city=search_city, post_code=api_post_code)
 
         if not lockers:
             params_str = _build_params_string(
