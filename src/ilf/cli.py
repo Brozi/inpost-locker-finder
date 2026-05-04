@@ -58,6 +58,7 @@ def find(
             raise typer.Exit(code=ExitCode.NO_RESULTS)
 
         lockers = _filter_and_sort_lockers(lockers, search_postcode, street, limit, show_all)
+        found_lockers = len(lockers)
         if not lockers:
             params_str = _build_params_string(
                 post_code=post_code,
