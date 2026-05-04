@@ -30,8 +30,9 @@ def find(city:str):
         raise typer.Exit(code=ExitCode.UNEXPECTED_ERROR)
 
 def _version_callback(value: bool):
-    #--version command. value: bool passes the state of this command
-    #to typer. Its a flag - it either is there or is isnt
+    """--version command callback.
+    :param value:  passes the state of this command. Checks whether the command is there or not.
+    to typer. Its a flag - it either is there or is isnt"""
     if value:
         typer.echo(f"{__app_name__} v{__version__}")
         raise typer.Exit(ExitCode.SUCCESS)
