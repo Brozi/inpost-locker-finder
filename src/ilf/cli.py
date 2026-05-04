@@ -61,8 +61,18 @@ def find(
         lockers = fetcher.get_operating_lockers(city=search_city, post_code=api_post_code)
 
         if not lockers:
-            #if there are no lockers
-            typer.secho(ERROR_MESSAGES[ExitCode.NO_RESULTS], fg=typer.colors.YELLOW, err=True)
+            params_str = _build_params_string(
+                city=search_city,
+                post_code=api_post_code,
+                street=street
+            )
+            #if there are no lockers from the api call
+            if not search_city:
+                typer.secho(f"No lockers found for given parameters: {params_str}", fg=typer.colors.YELLOW,err=True)
+                typer.secho("Hint: When searching without a city, partial postal codes are not supported. Make sure you entered a full postal code.", fg=typer.colors.BRIGHT_YELLOW, err=True)
+
+            else:
+                typer.secho(ERROR_MESSAGES[ExitCode.NO_RESULTS], fg=typer.colors.YELLOW, err=True)
             raise typer.Exit(code=ExitCode.NO_RESULTS)
 
         lockers, found_lockers = _filter_and_sort_lockers(lockers,
@@ -75,9 +85,11 @@ def find(
                                            )
         if not lockers:
             params_str = _build_params_string(
+                city=search_city,
                 post_code=post_code,
                 street=street
             )
+            #if there are no lockers after filtering
             typer.secho(f"No lockers found in {location} for given parameters: {params_str}",
                         fg=typer.colors.YELLOW,
                         err=True)
