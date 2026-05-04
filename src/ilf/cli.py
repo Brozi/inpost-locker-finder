@@ -119,9 +119,7 @@ def find(
 
         raise
 
-    except Exception as e:
-        import traceback
-        traceback.print_exc()
+    except Exception:
         typer.secho(ERROR_MESSAGES[ExitCode.UNEXPECTED_ERROR],
                     fg=typer.colors.RED,
                     err=True)
@@ -189,7 +187,6 @@ def main(
 
 ) -> None:
     """
-    inpost-locker-finder (ilf or locker-finder for short): A tool for finding
-    nearest inpost lockers.
+    inpost-locker-finder (ilf or locker-finder for short): A tool for finding InPost points in a given location.
     """
     return
