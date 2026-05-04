@@ -1,4 +1,4 @@
-from src.ilf.locker import Locker
+from ilf.locker import Locker
 import requests
 
 from typing import Any

@@ -1,10 +1,9 @@
 import json
-import urllib.parse
 
 from rich.console import Console
 from rich.table import Table
 
-from src.ilf.locker import Locker
+from ilf.locker import Locker
 
 
 def print_lockers_table(lockers: list[Locker], location: str, limit: int = 3 ) -> None:

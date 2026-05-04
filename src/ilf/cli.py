@@ -1,8 +1,8 @@
-from src.ilf.format import print_lockers_table, format_json
-from src.ilf.api import InPostFetcher
-from src.ilf.locker import Locker
-from src.ilf import ExitCode, ERROR_MESSAGES
-from src.ilf import __app_name__, __version__
+from ilf.format import print_lockers_table, format_json
+from ilf.api import InPostFetcher
+from ilf.locker import Locker
+from ilf import ExitCode, ERROR_MESSAGES
+from ilf import __app_name__, __version__
 
 from typing import Optional
 from rich.console import Console
