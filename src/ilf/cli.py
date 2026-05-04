@@ -15,7 +15,7 @@ fetcher = InPostFetcher()
 
 @app.command(no_args_is_help=True)
 def find(
-        city:str = typer.Argument(help="The name of the city"),
+        location:Optional[str] = typer.Argument(help="The name of the city or the postal code to search"),
         limit: int = typer.Option(3, "--limit", "-l", help="Number of lockers to display. Example: --limit 10", rich_help_panel="Display Options"),
         show_all: bool = typer.Option(False, "--all", "-a", help="Show all lockers found", rich_help_panel="Display Options"),
         post_code: str = typer.Option(None, "--post-code", "-p", help="Filter by postal code. Example: --post-code 30, --post-code 31-876", rich_help_panel="Filtering Options"),
@@ -40,23 +40,30 @@ def find(
     :param show_all: flag to show all lockers found
     :param post_code: filter lockers by postal code
     """
+    search_city = None
+    search_postcode = post_code
+
+    if location[0].isdigit():
+        search_postcode = location
+    else:
+        search_city = location
     try:
         typer.secho("Fetching lockers...", fg=typer.colors.BRIGHT_YELLOW, err=True)
 
-        lockers = fetcher.get_operating_lockers(city)
+        lockers = fetcher.get_operating_lockers(city=search_city, post_code=search_postcode)
         found_lockers = len(lockers)
         if not lockers:
             #if there are no lockers
             typer.secho(ERROR_MESSAGES[ExitCode.NO_RESULTS], fg=typer.colors.YELLOW, err=True)
             raise typer.Exit(code=ExitCode.NO_RESULTS)
 
-        lockers = _filter_and_sort_lockers(lockers, post_code, street, limit, show_all)
+        lockers = _filter_and_sort_lockers(lockers, search_postcode, street, limit, show_all)
         if not lockers:
             params_str = _build_params_string(
                 post_code=post_code,
                 street=street
             )
-            typer.secho(f"No lockers found in {city} for given parameters: {params_str}",
+            typer.secho(f"No lockers found in {location} for given parameters: {params_str}",
                         fg=typer.colors.YELLOW,
                         err=True)
             raise typer.Exit(code=ExitCode.NO_RESULTS)
@@ -67,13 +74,13 @@ def find(
         if json_output:
             json_str = format_json(lockers)
             typer.echo(json_str)
-            typer.secho(f"Success! Found {found_lockers} lockers in {city}.",
+            typer.secho(f"Success! Found {found_lockers} lockers in {location}.",
                         fg=typer.colors.GREEN,
                         err=True)
         else:
-            print_lockers_table(lockers, city, limit=limit)
+            print_lockers_table(lockers, location, limit=limit)
             displayed_count = min(len(lockers), limit)
-            typer.secho(f"Success! Found {found_lockers} lockers in {city}.",
+            typer.secho(f"Success! Found {found_lockers} lockers in {location}.",
                         fg=typer.colors.GREEN,
                         err=True)
             typer.secho(f"Displaying {displayed_count} lockers.",

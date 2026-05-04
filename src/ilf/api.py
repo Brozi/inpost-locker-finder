@@ -1,5 +1,7 @@
 from src.ilf.locker import Locker
 import requests
+
+from typing import Any
 #define the base url as a variable - gives the possibility
 #to change it later
 
@@ -9,22 +11,27 @@ class InPostFetcher:
     BASE_URL = 'https://api-global-points.easypack24.net/v1/points'
     statuses = ['Operating', 'Overloaded']
 
-    def get_operating_lockers(self, city:str) -> list[Locker]:
+    def get_operating_lockers(self, city: str = None, post_code: str = None) -> list[Locker]:
         """
         Return the list of all lockers for a given city
         :param city: A string containg the city name
+        :param post_code: A string containg the post code
         :return: a list containing all lockers assigned to the city
         """
         all_lockers=[]
         page = 1
 
         while True:
-            params = {
-                'city': city,
+            params: dict[str, Any] = {
                 'status': InPostFetcher.statuses,
                 'page': page,
                 'per_page': 1000
             }
+            if city:
+                params['city'] = city
+            if post_code:
+                params['post_code'] = post_code
+
             #define the parameters of the api call
             response = requests.get(self.BASE_URL, params=params)
             #assign the reply from the api to the variable 'response'
