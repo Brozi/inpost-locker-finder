@@ -39,12 +39,12 @@ def find(
     :param post_code: filter lockers by postal code
     """
     try:
-        typer.secho("Fetching lockers...", fg=typer.colors.BRIGHT_YELLOW)
+        typer.secho("Fetching lockers...", fg=typer.colors.BRIGHT_YELLOW, err=True)
         lockers = fetcher.get_operating_lockers(city)
 
         if not lockers:
         #if there are no lockers
-            typer.secho(ERROR_MESSAGES[ExitCode.NO_RESULTS], fg=typer.colors.YELLOW)
+            typer.secho(ERROR_MESSAGES[ExitCode.NO_RESULTS], fg=typer.colors.YELLOW, err=True)
             raise typer.Exit(code=ExitCode.NO_RESULTS)
 
         if show_all:
@@ -55,7 +55,7 @@ def find(
             lockers = [loc for loc in lockers if loc.address_details_post_code.startswith(post_code)]
 
             if not lockers:
-                typer.secho(f"No lockers found in {city} for postal code {post_code}", fg=typer.colors.YELLOW)
+                typer.secho(f"No lockers found in {city} for postal code {post_code}", fg=typer.colors.YELLOW, err=True)
                 raise typer.Exit(code=ExitCode.NO_RESULTS)
 
         if street:
@@ -69,15 +69,15 @@ def find(
         print_lockers_table(lockers, city, limit=limit)
 
         displayed_count = min(len(lockers), limit)
-        typer.secho(f"Success! Found {len(lockers)} lockers in {city}.", fg=typer.colors.GREEN)
-        typer.secho(f"Displaying {displayed_count} lockers.", fg=typer.colors.GREEN)
+        typer.secho(f"Success! Found {len(lockers)} lockers in {city}.", fg=typer.colors.GREEN, err=True)
+        typer.secho(f"Displaying {displayed_count} lockers.", fg=typer.colors.GREEN, err=True)
         raise typer.Exit(ExitCode.SUCCESS)
 
     except typer.Exit:
 
         raise
     except Exception:
-        typer.secho(ERROR_MESSAGES[ExitCode.UNEXPECTED_ERROR], fg=typer.colors.RED)
+        typer.secho(ERROR_MESSAGES[ExitCode.UNEXPECTED_ERROR], fg=typer.colors.RED, err=True)
         raise typer.Exit(code=ExitCode.UNEXPECTED_ERROR)
 
 def _version_callback(value: bool):
