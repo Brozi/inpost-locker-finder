@@ -6,6 +6,7 @@ from src.ilf import __app_name__, __version__
 
 from typing import Optional
 from rich.console import Console
+from rich.panel import Panel
 err_console = Console(stderr=True)
 console = Console()
 import typer
@@ -16,14 +17,28 @@ app = typer.Typer(no_args_is_help=True,
                   add_completion=False)
 fetcher = InPostFetcher()
 
-@app.command(no_args_is_help=True)
+@app.command(no_args_is_help=True,
+             epilog="""
+    **Examples:**
+    
+           
+    > `ilf find Kraków` (Finds default amount of lockers)
+    
+    
+    > `ilf find 31-876 --24h` (Finds 24/7 lockers in a specific postal code)
+    
+    
+    > `ilf find Warszawa -s "Złota" --all` (Finds all lockers on Złota street)
+
+
+             """)
 def find(
         location:Optional[str] = typer.Argument(help="The name of the city or the postal code to search"),
-        limit: int = typer.Option(15, "--limit", "-l", help="Number of lockers to display. Example: --limit 10", rich_help_panel="Display Options"),
+        limit: int = typer.Option(15, "--limit", "-l", help="Number of lockers to display. **Example:** `--limit 10`", rich_help_panel="Display Options"),
         show_all: bool = typer.Option(False, "--all", "-a", help="Show all lockers found", rich_help_panel="Display Options"),
-        post_code: str = typer.Option(None, "--post-code", "-p", help="Filter by postal code. Example: --post-code 30, --post-code 31-876", rich_help_panel="Filtering Options"),
-        street: str = typer.Option(None, "--street", "-s", help="Filter by street. Example: --street Karmelicka", rich_help_panel="Filtering Options"),
-        location_247: bool = typer.Option(False, "--24h", "-d", help="Filter by the point being open 24/7.", rich_help_panel="Filtering Options"),
+        post_code: str = typer.Option(None, "--post-code", "-p", help="Filter by postal code. **Example:** `--post-code 30`, `--post-code 31-876`", rich_help_panel="Filtering Options"),
+        street: str = typer.Option(None, "--street", "-s", help="Filter by street. **Example:** `--street Karmelicka`", rich_help_panel="Filtering Options"),
+        location_247: bool = typer.Option(False, "--24h", "-d", help="Filter by the point being open *24/7*.", rich_help_panel="Filtering Options"),
         easy_access_zone: bool = typer.Option(False, "--easy-access-zone", "-e", help="Filter by the point having the Easy Access Zone", rich_help_panel="Filtering Options"),
         json_output: bool = typer.Option(False, "--json", "-j", help="Output results in JSON format", rich_help_panel="Output Options"),
 ):
@@ -69,11 +84,11 @@ def find(
             )
             #if there are no lockers from the api call
             if not search_city:
-                typer.secho(f"{ERROR_MESSAGES[ExitCode.NO_RESULTS]}: {params_str}", fg=typer.colors.YELLOW,err=True)
-                typer.secho("Hint: When searching without a city, partial postal codes are not supported. Make sure you entered a full postal code.", fg=typer.colors.BRIGHT_YELLOW, err=True)
+                err_console.print(Panel(f"{ERROR_MESSAGES[ExitCode.NO_RESULTS]}: {params_str}\n{ERROR_MESSAGES[ExitCode.HINT]}",
+                                        title="Search Failed", border_style="red", expand=False))
 
             else:
-                typer.secho(ERROR_MESSAGES[ExitCode.NO_RESULTS], fg=typer.colors.YELLOW, err=True)
+                err_console.print(Panel(ERROR_MESSAGES[ExitCode.NO_RESULTS],title="Search Failed", border_style="red"))
             raise typer.Exit(code=ExitCode.NO_RESULTS)
 
         lockers, found_lockers = _filter_and_sort_lockers(lockers,
@@ -90,9 +105,11 @@ def find(
                 street=street
             )
             #if there are no lockers after filtering
-            typer.secho(f"{search_city}: {ERROR_MESSAGES[ExitCode.NO_RESULTS_FROM_FILTERING]}: {params_str}",
-                        fg=typer.colors.YELLOW,
-                        err=True)
+            err_console.print(Panel(f"[yellow][underline]{search_city}[/underline]: "
+                                    f"{ERROR_MESSAGES[ExitCode.NO_RESULTS_FROM_FILTERING]}: "
+                                    f"[italic]{params_str}[/italic][/yellow]",
+                        title="Search Failed",
+                        border_style="bold yellow", expand=False))
             raise typer.Exit(code=ExitCode.NO_RESULTS)
 
         if show_all:
@@ -101,18 +118,15 @@ def find(
         if json_output:
             json_str = format_json(lockers)
             typer.echo(json_str)
-            typer.secho(f"Success! Found {found_lockers} lockers in {location}.",
-                        fg=typer.colors.GREEN,
-                        err=True)
+            err_console.print(f"[bold green]Success![/bold green] Found [bold]{found_lockers}[/bold] lockers in [cyan]{location}[/cyan].")
         else:
             print_lockers_table(lockers, location, limit=limit)
             displayed_count = min(len(lockers), limit)
-            typer.secho(f"Success! Found {found_lockers} lockers in {location}.",
-                        fg=typer.colors.GREEN,
-                        err=True)
-            typer.secho(f"Displaying {displayed_count} lockers.",
-                        fg=typer.colors.GREEN,
-                        err=True)
+            success_text = (
+                f"[bold green]Success![/bold green] Found [bold]{found_lockers}[/bold] lockers in [cyan]{location}[/cyan].\n"
+                f"Displaying [bold]{displayed_count}[/bold] lockers."
+            )
+            err_console.print(Panel(success_text, border_style="green", expand=False))
         raise typer.Exit(code=ExitCode.SUCCESS)
 
     except typer.Exit:
@@ -120,9 +134,7 @@ def find(
         raise
 
     except Exception:
-        typer.secho(ERROR_MESSAGES[ExitCode.UNEXPECTED_ERROR],
-                    fg=typer.colors.RED,
-                    err=True)
+        err_console.print(Panel(ERROR_MESSAGES[ExitCode.UNEXPECTED_ERROR], title="Unexpected Error", border_style="red"))
         raise typer.Exit(code=ExitCode.UNEXPECTED_ERROR)
 
 def _filter_and_sort_lockers(lockers: list[Locker],

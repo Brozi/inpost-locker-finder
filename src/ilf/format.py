@@ -35,13 +35,18 @@ def print_lockers_table(lockers: list[Locker], location: str, limit: int = 3 ) -
         easy_access_text = f"[green]{locker.easy_access_zone}[/green]" \
             if locker.easy_access_zone == "Yes" else f"[red]{locker.easy_access_zone}[/red]"
 
+        if "24/7" in locker.opening_hours:
+            hours_text = "[bold black on bright_green]24/7[/]"
+        else:
+            hours_text = locker.opening_hours
+
         table.add_row(
             locker.name,
             status_text,
             locker.address,
             locker.location_description,
             easy_access_text,
-            locker.opening_hours,
+            hours_text,
             maps_link
 
 
