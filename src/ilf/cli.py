@@ -13,14 +13,14 @@ app = typer.Typer(no_args_is_help=True,
                   add_completion=False)
 fetcher = InPostFetcher()
 
-@app.command()
+@app.command(no_args_is_help=True)
 def find(
-        city:str,
-        limit: int = typer.Option(3, "--limit", "-l", help="Number of lockers to display. Example: --limit 10"),
-        show_all: bool = typer.Option(False, "--all", "-a", help="Show all lockers found"),
-        post_code: str = typer.Option(None, "--post-code", "-p", help="Filter by postal code. Example: --post-code 30, --post-code 31-876"),
-        street: str = typer.Option(None, "--street", "-s", help="Filter by street. Example: --street Karmelicka"),
-        json_output: bool = typer.Option(False, "--json", "-j", help="Output results in JSON format"),
+        city:str = typer.Argument(None, help="The name of the city"),
+        limit: int = typer.Option(3, "--limit", "-l", help="Number of lockers to display. Example: --limit 10", rich_help_panel="Display Options"),
+        show_all: bool = typer.Option(False, "--all", "-a", help="Show all lockers found", rich_help_panel="Display Options"),
+        post_code: str = typer.Option(None, "--post-code", "-p", help="Filter by postal code. Example: --post-code 30, --post-code 31-876", rich_help_panel="Filtering Options"),
+        street: str = typer.Option(None, "--street", "-s", help="Filter by street. Example: --street Karmelicka", rich_help_panel="Filtering Options"),
+        json_output: bool = typer.Option(False, "--json", "-j", help="Output results in JSON format", rich_help_panel="Output Options"),
 ):
     """Find operating Inpost lockers in a given city.
 
