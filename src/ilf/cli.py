@@ -54,13 +54,11 @@ def find(
     else:
         search_city = location
     try:
-        typer.secho("Fetching lockers...", fg=typer.colors.BRIGHT_YELLOW, err=True)
-
         api_post_code = search_postcode if not search_city else None
-        #if search city empty, api_post_code is post_code
-        #this allows the program to query the endpoint based on post_code
-        #improves speed
-        with err_console.status("[bold yellow]Fetching lockers from InPost...[/bold_yellow]", spinner="dots"):
+        # if search city empty, api_post_code is post_code
+        # this allows the program to query the endpoint based on post_code
+        # improves speed
+        with err_console.status("[bold yellow]Fetching lockers from InPost...[/bold yellow]", spinner="dots"):
             lockers = fetcher.get_operating_lockers(city=search_city, post_code=api_post_code)
 
         if not lockers:
@@ -121,7 +119,9 @@ def find(
 
         raise
 
-    except Exception:
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
         typer.secho(ERROR_MESSAGES[ExitCode.UNEXPECTED_ERROR],
                     fg=typer.colors.RED,
                     err=True)
