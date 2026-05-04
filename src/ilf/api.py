@@ -15,19 +15,32 @@ class InPostFetcher:
         :param city: A string containg the city name
         :return: a list containing all lockers assigned to the city
         """
+        all_lockers=[]
+        page = 1
 
-        params = {
-            'city': city,
-            'status': InPostFetcher.statuses
-        }
-        #define the parameters of the api call
-        response = requests.get(self.BASE_URL, params=params)
-        #assign the reply from the api to the variable 'response'
-        response.raise_for_status()
-        #stop the program when the response in ['404', '500'] and raise exception
-        data = response.json()
-        #convert the json string into a python dict
-        raw_points = data.get('items', [])
-        #return everything inside the 'items' key from the data dict.
-        #If the 'items' key missing/empty, return empty list
-        return [Locker.from_api_dict(raw_point)for raw_point in raw_points]
+        while True:
+            params = {
+                'city': city,
+                'status': InPostFetcher.statuses,
+                'page': page,
+                'per_page': 1000
+            }
+            #define the parameters of the api call
+            response = requests.get(self.BASE_URL, params=params)
+            #assign the reply from the api to the variable 'response'
+            response.raise_for_status()
+            #stop the program when the response in ['404', '500'] and raise exception
+            data = response.json()
+            #convert the json string into a python dict
+            raw_points = data.get('items', [])
+            #return everything inside the 'items' key from the data dict.
+            #If the 'items' key missing/empty, return empty list
+            all_lockers.extend([Locker.from_api_dict(raw_point)for raw_point in raw_points])
+            #add a list into the existing list all_lockers
+            total_pages = data.get('total_pages', 1)
+            #get the number of total pages
+            if page >= total_pages or not raw_points:
+                break
+            page += 1
+
+        return all_lockers
