@@ -8,7 +8,7 @@ class Locker:
     status: str
     location_247: bool
     opening_hours: str
-    easy_access_zone: bool
+    easy_access_zone: str
     location_description: str
     address: str
     address_details_city: str
@@ -30,7 +30,7 @@ class Locker:
             status=point['status'],
             location_247=point['location_247'],
             opening_hours=cls._parse_schedule(point),
-            easy_access_zone=point['easy_access_zone'],
+            easy_access_zone=cls._parse_easy_access_zone(point),
             location_description=cls._clean_description(point),
             address=cls._combine_address(point),
             address_details_city=point.get('address_details', {})['city'],
@@ -38,6 +38,15 @@ class Locker:
             address_details_building=point.get('address_details', {})['building_number'],
             address_details_street=point.get('address_details', {})['street'],
         )
+
+
+    @staticmethod
+    def _parse_easy_access_zone(point:dict) -> str:
+        """Helper function to parse True and False values for easy access zone into "Yes" or "No" values.
+        :param point: a dict containing data about a single point
+        :return: easy_access_zone: Yes or No values"""
+        has_zone = bool(point.get('easy_access_zone', False))
+        return 'Yes' if has_zone else 'No'
 
 
     @staticmethod
