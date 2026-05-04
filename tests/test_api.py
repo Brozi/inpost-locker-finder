@@ -17,7 +17,10 @@ MOCK_RESPONSE = {
             },
             "address_details": {
                 "city": "Pisary",
-                "post_code": "32-064"
+                "post_code": "32-064",
+                "street": "Władysława Broniewskiego",
+                "building_number": "1",
+                "flat_number": 'null'
             }
         }
     ]

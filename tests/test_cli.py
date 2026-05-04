@@ -18,7 +18,9 @@ MOCK_LOCKERS = [
         location_description="",
         address="Kasztanowa 46/2, 32-064 Pisary",
         address_details_city="Pisary",
-        address_details_post_code="32-064"
+        address_details_post_code="32-064",
+        address_details_street="Kasztanowa",
+        address_details_building=''
     )
 ]
 
