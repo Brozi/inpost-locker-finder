@@ -43,7 +43,7 @@ MOCK_LOCKERS = [
 #
 #     assert "inpost lockers" in stdout
 
-@patch("src.ilf.cli.fetcher.get_operating_lockers")
+@patch("ilf.cli.fetcher.get_operating_lockers")
 def test_find_success(mock_get_operating_lockers):
     """Test find command success"""
     mock_get_operating_lockers.return_value = MOCK_LOCKERS
