@@ -1,4 +1,4 @@
-from src.ilf.locker import Locker
+from ilf.locker import Locker
 
 from unittest.mock import patch
 

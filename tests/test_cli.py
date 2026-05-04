@@ -1,9 +1,9 @@
 from typer.testing import CliRunner
 import click
 
-from src.ilf import __app_name__, __version__, cli
-from src.ilf.cli import app
-from src.ilf.locker import Locker
+from ilf import __app_name__, __version__, cli
+from ilf.cli import app
+from ilf.locker import Locker
 
 from unittest.mock import patch
 

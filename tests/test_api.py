@@ -1,5 +1,5 @@
 from unittest.mock import patch
-from src.ilf.api import InPostFetcher,Locker
+from ilf.api import InPostFetcher,Locker
 MOCK_RESPONSE = {
     "items": [
         {
