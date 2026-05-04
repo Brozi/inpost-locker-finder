@@ -1,4 +1,5 @@
 import json
+import urllib.parse
 
 from rich.console import Console
 from rich.table import Table
@@ -21,10 +22,13 @@ def print_lockers_table(lockers: list[Locker], location: str, limit: int = 3 ) -
     table.add_column("Location Description", style="yellow")
     table.add_column("Easy Access Zone?", style="red",justify="center")
     table.add_column("Opening hours", style="green")
+    table.add_column("Map", style="blue")
 
 
 
     for locker in lockers[:limit]:
+        maps_link = f"[link={locker.build_map_link}]Google Maps[/link]"
+
         table.add_row(
             locker.name,
             locker.status,
@@ -32,6 +36,9 @@ def print_lockers_table(lockers: list[Locker], location: str, limit: int = 3 ) -
             locker.location_description,
             str(locker.easy_access_zone),
             locker.opening_hours,
+            maps_link
+
+
         )
     console.print(table)
 
@@ -45,6 +52,7 @@ def format_json(lockers: list[Locker]) -> str:
         "location_description": locker.location_description,
         "easy_access_zone": str(locker.easy_access_zone),
         "opening_hours": locker.opening_hours,
+        "maps_link": locker.build_map_link
     }
     for locker in lockers
     ]

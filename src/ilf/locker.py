@@ -1,3 +1,4 @@
+import urllib.parse
 from dataclasses import dataclass
 @dataclass
 class Locker:
@@ -36,7 +37,7 @@ class Locker:
             address_details_city=point.get('address_details', {})['city'],
             address_details_post_code=point.get('address_details', {})['post_code'],
             address_details_building=point.get('address_details', {})['building_number'],
-            address_details_street=point.get('address_details', {})['street'],
+            address_details_street=point.get('address_details', {})['street']
         )
 
 
@@ -87,6 +88,12 @@ class Locker:
         mins = minutes % 60
         return f"{hours:02d}:{mins:02d}"
 
+    @property
+    def build_map_link(self) -> str:
+        search_query = f"InPost {self.name}, {self.address}"
+        safe_query = urllib.parse.quote(search_query)
+        maps_url = f"https://www.google.com/maps/search/?api=1&query={safe_query}"
+        return maps_url
 
     @staticmethod
     def _parse_schedule(point:dict) -> str:
