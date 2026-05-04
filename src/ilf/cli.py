@@ -44,6 +44,7 @@ def find(
         typer.secho("Fetching lockers...", fg=typer.colors.BRIGHT_YELLOW, err=True)
 
         lockers = fetcher.get_operating_lockers(city)
+        found_lockers = len(lockers)
         if not lockers:
             #if there are no lockers
             typer.secho(ERROR_MESSAGES[ExitCode.NO_RESULTS], fg=typer.colors.YELLOW, err=True)
@@ -66,13 +67,13 @@ def find(
         if json_output:
             json_str = format_json(lockers)
             typer.echo(json_str)
-            typer.secho(f"Success! Found {len(lockers)} lockers in {city}.",
+            typer.secho(f"Success! Found {found_lockers} lockers in {city}.",
                         fg=typer.colors.GREEN,
                         err=True)
         else:
             print_lockers_table(lockers, city, limit=limit)
             displayed_count = min(len(lockers), limit)
-            typer.secho(f"Success! Found {len(lockers)} lockers in {city}.",
+            typer.secho(f"Success! Found {found_lockers} lockers in {city}.",
                         fg=typer.colors.GREEN,
                         err=True)
             typer.secho(f"Displaying {displayed_count} lockers.",
