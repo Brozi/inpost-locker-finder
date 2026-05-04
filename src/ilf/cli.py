@@ -61,7 +61,7 @@ def find(
         if street:
             lockers = [loc for loc in lockers if street.lower() in loc.address_details_street.lower()]
 
-        lockers.sort(key=lambda locker: (locker.address_details_post_code, locker.location_247)
+        lockers.sort(key=lambda locker: (locker.address_details_post_code, not locker.location_247)
                      ,reverse=False
         )
         #sort lockers by post code and location 24/7 if
