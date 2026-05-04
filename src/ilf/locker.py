@@ -34,9 +34,9 @@ class Locker:
             location_description=cls._clean_description(point),
             address=cls._combine_address(point),
             address_details_city=point.get('address_details', {})['city'],
-            address_details_street=point.get('address_details', {})['street'],
-            address_details_building=point.get('address_details', {})['building'],
             address_details_post_code=point.get('address_details', {})['post_code'],
+            address_details_building=point.get('address_details', {})['building_number'],
+            address_details_street=point.get('address_details', {})['street'],
         )
 
 
