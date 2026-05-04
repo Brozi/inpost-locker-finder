@@ -63,7 +63,7 @@ def find(
             typer.secho(ERROR_MESSAGES[ExitCode.NO_RESULTS], fg=typer.colors.YELLOW, err=True)
             raise typer.Exit(code=ExitCode.NO_RESULTS)
 
-        lockers = _filter_and_sort_lockers(lockers, search_postcode, street, limit, show_all)
+        lockers = _filter_and_sort_lockers(lockers, search_postcode, street, limit, show_all, location_247)
         found_lockers = len(lockers)
         if not lockers:
             params_str = _build_params_string(
@@ -114,13 +114,13 @@ def _filter_and_sort_lockers(lockers: list[Locker],
 ) -> list[Locker]:
 
     if location_247:
-        lockers = [loc for loc in lockers if loc.location_247]
+        lockers = [locker for locker in lockers if "24/7" in locker.opening_hours]
 
     if post_code:
-        lockers = [loc for loc in lockers if loc.address_details_post_code.startswith(post_code)]
+        lockers = [locker for locker in lockers if locker.address_details_post_code.startswith(post_code)]
 
     if street:
-        lockers = [loc for loc in lockers if street.lower() in loc.address_details_street.lower()]
+        lockers = [locker for locker in lockers if street.lower() in locker.address_details_street.lower()]
 
     lockers.sort(key=lambda locker: (locker.address_details_post_code, not locker.location_247))
     # sort lockers by post code and location 24/7
