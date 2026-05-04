@@ -13,7 +13,8 @@ fetcher = InPostFetcher()
 @app.command()
 def find(
         city:str,
-        limit: int = typer.Option(3, "--limit", "-l", help="Number of lockers to display")
+        limit: int = typer.Option(3, "--limit", "-l", help="Number of lockers to display, default=3"),
+        show_all: bool = typer.Option(False, "--all", "-a", help="Show all lockers found" )
 ):
     """Find 3 closest operating InPost lockers
     :param city: the name of the city to find lockers for
@@ -26,9 +27,12 @@ def find(
             typer.secho(ERROR_MESSAGES[ExitCode.NO_RESULTS], fg=typer.colors.YELLOW)
             raise typer.Exit(code=ExitCode.NO_RESULTS)
 
-        print_lockers_table(lockers, city, limit=limit)
-        displayed_count = min(len(lockers), limit)
+        if show_all:
+            limit = len(lockers)
 
+        print_lockers_table(lockers, city, limit=limit)
+
+        displayed_count = min(len(lockers), limit)
         typer.secho(f"Success! Found {len(lockers)} lockers in {city}.", fg=typer.colors.GREEN)
         typer.secho(f"Displaying {displayed_count} lockers.", fg=typer.colors.GREEN)
 
