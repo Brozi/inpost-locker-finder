@@ -19,7 +19,7 @@ def print_lockers_table(lockers: list[Locker], location: str, limit: int = 3 ) -
     table.add_column("Status", style="cyan")
     table.add_column("Address", style="magenta")
     table.add_column("Location Description", style="yellow")
-    table.add_column("Easy Access Zone?", style="red")
+    table.add_column("Easy Access Zone?", style="red",justify="center")
     table.add_column("Opening hours", style="green")
 
 
