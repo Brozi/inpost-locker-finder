@@ -16,7 +16,7 @@ fetcher = InPostFetcher()
 @app.command(no_args_is_help=True)
 def find(
         location:Optional[str] = typer.Argument(help="The name of the city or the postal code to search"),
-        limit: int = typer.Option(3, "--limit", "-l", help="Number of lockers to display. Example: --limit 10", rich_help_panel="Display Options"),
+        limit: int = typer.Option(15, "--limit", "-l", help="Number of lockers to display. Example: --limit 10", rich_help_panel="Display Options"),
         show_all: bool = typer.Option(False, "--all", "-a", help="Show all lockers found", rich_help_panel="Display Options"),
         post_code: str = typer.Option(None, "--post-code", "-p", help="Filter by postal code. Example: --post-code 30, --post-code 31-876", rich_help_panel="Filtering Options"),
         street: str = typer.Option(None, "--street", "-s", help="Filter by street. Example: --street Karmelicka", rich_help_panel="Filtering Options"),

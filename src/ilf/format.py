@@ -34,6 +34,8 @@ def print_lockers_table(lockers: list[Locker], location: str, limit: int = 3 ) -
             locker.opening_hours,
         )
     console.print(table)
+
+
 def format_json(lockers: list[Locker]) -> str:
     """Prints the lockers as a json string for piping"""
     lockers_dict = [{
