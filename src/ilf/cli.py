@@ -12,7 +12,9 @@ fetcher = InPostFetcher()
 
 @app.command()
 def find(city:str):
-    """Find 3 closest operating InPost lockers"""
+    """Find 3 closest operating InPost lockers
+    :param city: the name of the city to find lockers for
+    """
     try:
         lockers = fetcher.get_operating_lockers(city)
 
