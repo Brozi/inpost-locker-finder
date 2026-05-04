@@ -4,8 +4,12 @@ from rich.table import Table
 from src.ilf.locker import Locker
 
 
-def print_lockers_table(lockers: list[Locker], city:str) -> None:
-    """ Prints the lockers in a nice looking table"""
+def print_lockers_table(lockers: list[Locker], city:str, limit: int = 3 ) -> None:
+    """ Prints the lockers in a nice looking table
+    :param lockers: the list being an instance of the class Locker
+    :param city: the name of the city
+    :param limit: the maximum number of lockers to print, default=3
+    """
     console = Console()
 
     table = Table(title=f"Closest InPost Lockers in {city.title()}")
@@ -18,7 +22,7 @@ def print_lockers_table(lockers: list[Locker], city:str) -> None:
 
 
 
-    for locker in lockers[:3]:
+    for locker in lockers[:limit]:
         table.add_row(
             locker.name,
             locker.status,
