@@ -1,4 +1,5 @@
 from typer.testing import CliRunner
+import click
 
 from src.ilf import __app_name__, __version__, cli
 from src.ilf.cli import app
@@ -14,7 +15,7 @@ MOCK_LOCKERS = [
         status="Operating",
         location_247=True,
         opening_hours="24/7",
-        easy_access_zone=True,
+        easy_access_zone='Yes',
         location_description="",
         address="Kasztanowa 46/2, 32-064 Pisary",
         address_details_city="Pisary",
@@ -36,17 +37,21 @@ def test_help():
     result = runner.invoke(app, ['--help'], prog_name=__app_name__)
     assert result.exit_code == 0
 
-    assert f"Usage: {__app_name__}" in result.stdout
+    stdout = click.unstyle(result.stdout)
 
-    assert "inpost lockers" in result.stdout
+    assert f"Usage: {__app_name__}" in stdout
+
+    assert "inpost lockers" in stdout
 
 @patch("src.ilf.cli.fetcher.get_operating_lockers")
 def test_find_success(mock_get_operating_lockers):
     """Test find command success"""
     mock_get_operating_lockers.return_value = MOCK_LOCKERS
-    result = runner.invoke(app, ['find', 'Pisary'])
+    result = runner.invoke(app, ['find', 'Pisary', '--json'])
     assert result.exit_code == 0
 
-    assert "PIS02" in result.stdout
+    stdout = click.unstyle(result.stdout)
 
-    assert "Kasztanowa" in result.stdout
+    assert "PIS02" in stdout
+
+    assert "Kasztanowa" in stdout
