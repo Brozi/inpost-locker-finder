@@ -18,6 +18,6 @@ MOCK_HOURS = {"operating_hours_extended": {
 }
 result = Locker._parse_schedule(MOCK_HOURS)
 
-expected = "MON-FRI: 09:00-17:00\nSAT-SUN: Closed"
+expected = "MON-FRI: 09:00-17:00, SAT-SUN: Closed"
 
 assert result == expected
