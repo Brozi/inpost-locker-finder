@@ -15,13 +15,13 @@ def print_lockers_table(lockers: list[Locker], location: str, limit: int = 3 ) -
     """
     console = Console()
 
-    table = Table(title=f"Closest InPost Lockers in {location.title()}")
-    table.add_column("Point ID", style="blue", no_wrap=True)
-    table.add_column("Status", style="cyan")
-    table.add_column("Address", style="magenta")
-    table.add_column("Location Description", style="yellow")
-    table.add_column("Easy Access Zone?", style="red",justify="center")
-    table.add_column("Opening hours", style="green")
+    table = Table(title=f"Closest InPost Lockers in {location.title()}", show_lines=True)
+    table.add_column("Point ID", style="cyan", no_wrap=True)
+    table.add_column("Status", justify="center")
+    table.add_column("Address")
+    table.add_column("Location Description", style="dim")
+    table.add_column("Easy Access?", justify="center")
+    table.add_column("Hours", justify="center")
     table.add_column("Map", style="blue")
 
 
@@ -29,12 +29,18 @@ def print_lockers_table(lockers: list[Locker], location: str, limit: int = 3 ) -
     for locker in lockers[:limit]:
         maps_link = f"[link={locker.build_map_link}]Google Maps[/link]"
 
+        status_text = f"[green]{locker.status}[/green]" \
+            if locker.status == "Operating" else"[red]{locker.status}[/red]"
+
+        easy_access_text = f"[green]{locker.easy_access_zone}[/green]" \
+            if locker.easy_access_zone == "Yes" else f"[red]{locker.easy_access_zone}[/red]"
+
         table.add_row(
             locker.name,
-            locker.status,
+            status_text,
             locker.address,
             locker.location_description,
-            str(locker.easy_access_zone),
+            easy_access_text,
             locker.opening_hours,
             maps_link
 
