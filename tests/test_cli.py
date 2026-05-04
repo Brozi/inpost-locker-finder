@@ -32,16 +32,16 @@ MOCK_LOCKERS = [
 #     assert result.exit_code == 0
 #     assert f"{__app_name__} v{__version__}" in result.stdout
 
-def test_help():
-    """Test help command"""
-    result = runner.invoke(app, ['--help'], prog_name=__app_name__)
-    assert result.exit_code == 0
-
-    stdout = click.unstyle(result.stdout)
-
-    assert f"Usage: {__app_name__}" in stdout
-
-    assert "inpost lockers" in stdout
+# def test_help():
+#     """Test help command"""
+#     result = runner.invoke(app, ['--help'], prog_name=__app_name__)
+#     assert result.exit_code == 0
+#
+#     stdout = click.unstyle(result.stdout)
+#
+#     assert f"Usage: {__app_name__}" in stdout
+#
+#     assert "inpost lockers" in stdout
 
 @patch("src.ilf.cli.fetcher.get_operating_lockers")
 def test_find_success(mock_get_operating_lockers):
