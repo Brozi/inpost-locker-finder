@@ -1,4 +1,4 @@
-from src.ilf.format import print_lockers_table
+from src.ilf.format import print_lockers_table, format_json
 from src.ilf.api import InPostFetcher
 from src.ilf import ExitCode, ERROR_MESSAGES
 from src.ilf import __app_name__, __version__
@@ -19,6 +19,7 @@ def find(
         show_all: bool = typer.Option(False, "--all", "-a", help="Show all lockers found"),
         post_code: str = typer.Option(None, "--post-code", "-p", help="Filter by postal code. Example: --post-code 30, --post-code 31-876"),
         street: str = typer.Option(None, "--street", "-s", help="Filter by street. Example: --street Karmelicka"),
+        json_output: bool = typer.Option(False, "--json", "-j", help="Output results in JSON format"),
 ):
     """Find operating Inpost lockers in a given city.
 
@@ -64,7 +65,13 @@ def find(
         lockers.sort(key=lambda locker: (locker.address_details_post_code, not locker.location_247)
                      ,reverse=False
         )
-        #sort lockers by post code and location 24/7 if
+        # sort lockers by post code and location 24/7
+
+        if json_output:
+            json_str = format_json(lockers)
+            typer.echo(json_str)
+            raise typer.Exit(code=ExitCode.SUCCESS)
+
 
         print_lockers_table(lockers, city, limit=limit)
 
