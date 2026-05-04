@@ -1,6 +1,7 @@
 """Top level package for Inpost Locker Finder (ilf)"""
 __app_name__ = 'inpost-locker-finder'
-__version__ = '0.1.0'
+
+from importlib.metadata import version, PackageNotFoundError
 
 from enum import IntEnum
 
