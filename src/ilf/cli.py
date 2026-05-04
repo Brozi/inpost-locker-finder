@@ -51,7 +51,13 @@ def find(
 
         lockers = _filter_and_sort_lockers(lockers, post_code, street, limit, show_all)
         if not lockers:
-            typer.secho(f"No lockers found in {city} for postal code {post_code}", fg=typer.colors.YELLOW, err=True)
+            params_str = _build_params_string(
+                post_code=post_code,
+                street=street
+            )
+            typer.secho(f"No lockers found in {city} for given parameters: {params_str}",
+                        fg=typer.colors.YELLOW,
+                        err=True)
             raise typer.Exit(code=ExitCode.NO_RESULTS)
 
 
@@ -61,15 +67,21 @@ def find(
         else:
             print_lockers_table(lockers, city, limit=limit)
             displayed_count = min(len(lockers), limit)
-            typer.secho(f"Success! Found {len(lockers)} lockers in {city}.", fg=typer.colors.GREEN, err=True)
-            typer.secho(f"Displaying {displayed_count} lockers.", fg=typer.colors.GREEN, err=True)
+            typer.secho(f"Success! Found {len(lockers)} lockers in {city}.",
+                        fg=typer.colors.GREEN,
+                        err=True)
+            typer.secho(f"Displaying {displayed_count} lockers.",
+                        fg=typer.colors.GREEN,
+                        err=True)
         raise typer.Exit(code=ExitCode.SUCCESS)
 
     except typer.Exit:
 
         raise
     except Exception:
-        typer.secho(ERROR_MESSAGES[ExitCode.UNEXPECTED_ERROR], fg=typer.colors.RED, err=True)
+        typer.secho(ERROR_MESSAGES[ExitCode.UNEXPECTED_ERROR],
+                    fg=typer.colors.RED,
+                    err=True)
         raise typer.Exit(code=ExitCode.UNEXPECTED_ERROR)
 
 def _filter_and_sort_lockers(lockers: list[Locker],
@@ -78,6 +90,7 @@ def _filter_and_sort_lockers(lockers: list[Locker],
     limit: int,
     show_all: bool
 ) -> list[Locker]:
+
     if post_code:
         lockers = [loc for loc in lockers if loc.address_details_post_code.startswith(post_code)]
 
@@ -91,6 +104,15 @@ def _filter_and_sort_lockers(lockers: list[Locker],
         # if user wants to get all lockers
         lockers = lockers[:limit]
     return lockers
+
+def _build_params_string(**kwargs) -> str:
+    """Builds a comma seperated string of the active search parameters"""
+    active_params = []
+    for key, value in kwargs.items():
+        if value:
+            active_params.append(f"{key}='{value}'")
+    return ",".join(active_params)
+
 
 
 def _version_callback(value: bool):
