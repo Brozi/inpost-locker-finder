@@ -64,8 +64,14 @@ def find(
             typer.secho(ERROR_MESSAGES[ExitCode.NO_RESULTS], fg=typer.colors.YELLOW, err=True)
             raise typer.Exit(code=ExitCode.NO_RESULTS)
 
-        lockers = _filter_and_sort_lockers(lockers, search_postcode, street, limit, show_all, location_247)
-        found_lockers = len(lockers)
+        lockers, found_lockers = _filter_and_sort_lockers(lockers,
+                                           search_postcode,
+                                           street,
+                                           limit,
+                                           show_all,
+                                           location_247,
+                                           easy_access_zone
+                                           )
         if not lockers:
             params_str = _build_params_string(
                 post_code=post_code,
@@ -113,7 +119,7 @@ def _filter_and_sort_lockers(lockers: list[Locker],
     show_all: bool,
     location_247: bool,
     easy_access_zone: bool,
-) -> list[Locker]:
+) -> tuple[list[Locker], int]:
 
     if easy_access_zone:
         lockers = [locker for locker in lockers if locker.easy_access_zone]
@@ -130,10 +136,12 @@ def _filter_and_sort_lockers(lockers: list[Locker],
     lockers.sort(key=lambda locker: (locker.address_details_post_code, not locker.location_247))
     # sort lockers by post code and location 24/7
 
+    found_lockers = len(lockers)
+
     if not show_all:
         # if user wants to get all lockers
         lockers = lockers[:limit]
-    return lockers
+    return lockers, found_lockers
 
 def _build_params_string(**kwargs) -> str:
     """Builds a comma seperated string of the active search parameters"""
