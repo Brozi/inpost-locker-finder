@@ -60,6 +60,8 @@ def find(
                         err=True)
             raise typer.Exit(code=ExitCode.NO_RESULTS)
 
+        if show_all:
+            limit = len(lockers)
 
         if json_output:
             json_str = format_json(lockers)
