@@ -64,6 +64,9 @@ def find(
         if json_output:
             json_str = format_json(lockers)
             typer.echo(json_str)
+            typer.secho(f"Success! Found {len(lockers)} lockers in {city}.",
+                        fg=typer.colors.GREEN,
+                        err=True)
         else:
             print_lockers_table(lockers, city, limit=limit)
             displayed_count = min(len(lockers), limit)
@@ -78,7 +81,12 @@ def find(
     except typer.Exit:
 
         raise
-    except Exception:
+
+    except Exception as e:
+        import traceback
+        typer.secho(f"Debug traceback", fg=typer.colors.RED, err=True)
+        traceback.print_exc()
+
         typer.secho(ERROR_MESSAGES[ExitCode.UNEXPECTED_ERROR],
                     fg=typer.colors.RED,
                     err=True)
