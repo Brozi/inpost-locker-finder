@@ -5,6 +5,11 @@ from importlib.metadata import version, PackageNotFoundError
 
 from enum import IntEnum
 
+try:
+    __version__ = version("inpost-locker-finder")
+except PackageNotFoundError:
+    __version__ = "dev (not installed)"
+
 
 #metadata
 
