@@ -20,7 +20,8 @@ def find(
         show_all: bool = typer.Option(False, "--all", "-a", help="Show all lockers found", rich_help_panel="Display Options"),
         post_code: str = typer.Option(None, "--post-code", "-p", help="Filter by postal code. Example: --post-code 30, --post-code 31-876", rich_help_panel="Filtering Options"),
         street: str = typer.Option(None, "--street", "-s", help="Filter by street. Example: --street Karmelicka", rich_help_panel="Filtering Options"),
-        location_247: bool = typer.Option(False, "--24h", "-ad", help="Filter by the point being open 24/7.", rich_help_panel="Filtering Options"),
+        location_247: bool = typer.Option(False, "--24h", "-d", help="Filter by the point being open 24/7.", rich_help_panel="Filtering Options"),
+        easy_access_zone: bool = typer.Option(False, "--easy-access-zone", "-e", help="Filter by the point having the Easy Access Zone", rich_help_panel="Filtering Options"),
         json_output: bool = typer.Option(False, "--json", "-j", help="Output results in JSON format", rich_help_panel="Output Options"),
 ):
     """Find operating Inpost lockers in a given city.
@@ -110,8 +111,12 @@ def _filter_and_sort_lockers(lockers: list[Locker],
     street: str | None,
     limit: int,
     show_all: bool,
-    location_247: bool
+    location_247: bool,
+    easy_access_zone: bool,
 ) -> list[Locker]:
+
+    if easy_access_zone:
+        lockers = [locker for locker in lockers if locker.easy_access_zone]
 
     if location_247:
         lockers = [locker for locker in lockers if "24/7" in locker.opening_hours]
