@@ -66,17 +66,26 @@ def find(
 
         if not lockers:
             params_str = _build_params_string(
-                city=search_city,
-                post_code=api_post_code,
+                location=api_post_code,
                 street=street
             )
             #if there are no lockers from the api call
             if not search_city:
-                err_console.print(Panel(f"{ERROR_MESSAGES[ExitCode.NO_RESULTS]}: {params_str}\n{ERROR_MESSAGES[ExitCode.HINT]}",
+                if len(api_post_code) < 5:
+                    err_console.print(Panel(f"{ERROR_MESSAGES[ExitCode.NO_RESULTS]}: {params_str}\n{ERROR_MESSAGES[ExitCode.HINT]}",
                                         title="Search Failed", border_style="red", expand=False))
+                else:
+                    err_console.print(
+                        Panel(f"{ERROR_MESSAGES[ExitCode.NO_RESULTS]}: {params_str}",
+                              title="Search Failed", border_style="red", expand=False))
 
             else:
-                err_console.print(Panel(ERROR_MESSAGES[ExitCode.NO_RESULTS],title="Search Failed", border_style="red"))
+                params_str = _build_params_string(
+                    location=search_city,
+                    post_code=api_post_code,
+                    street=street
+                )
+                err_console.print(Panel(f"{ERROR_MESSAGES[ExitCode.NO_RESULTS]}: {params_str}",title="Search Failed", border_style="red"))
             raise typer.Exit(code=ExitCode.NO_RESULTS)
 
         lockers, found_lockers = _filter_and_sort_lockers(lockers,
