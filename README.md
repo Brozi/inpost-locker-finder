@@ -147,7 +147,7 @@ pytest tests/
 If you prefer installation from PyPI (for example with pip install), 
 the app is available on [PyPI](https://pypi.org/project/inpost-locker-finder/) too.
 ### Installation steps
-**1. Create a separate project folder for the virtual environment
+**1. Create a separate project folder for the virtual environment**
 ```bash
 mkdir inpost-locker-finder
 cd inpost-locker-finder
