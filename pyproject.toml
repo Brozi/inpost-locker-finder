@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "inpost-locker-finder"
 dynamic = ["version"]
-description = "A fast and beautiful CLI tool for finding nearest InPost lockers."
+description = "A fast and beautiful CLI tool for finding nearest InPost points."
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT"}
