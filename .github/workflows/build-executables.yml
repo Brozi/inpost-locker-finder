@@ -43,6 +43,11 @@ jobs:
       run: |
         pyinstaller --name ilf --onefile src/ilf/__main__.py
 
+    - name: Rename asset
+      shell: bash
+      run: |
+        mv dist/${{ matrix.artifact_name }} dist/${{ matrix.asset_name }}
+
     - name: Upload artifact to GitHub Release
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
