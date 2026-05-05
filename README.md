@@ -37,7 +37,10 @@ At its core, `ilf` (InPost Locker Finder) brings the InPost search experience di
 ```text
 .
 ├── .github/
-│   └── workflows/             # CI/CD pipelines (PyInstaller auto-builds, auto-publishing on PyPI & auto unit tests)
+│   └── workflows/ 
+│       ├── build-execs.yml    # PyInstaller auto-builds
+│       ├── publish.yml        # PyPI auto-publishing (on release & auto versioning)   
+│       └── tests.yml          # Auto unit testing
 ├── src/
 │   └── ilf/                   # Main application package
 │       ├── __init__.py
@@ -53,7 +56,7 @@ At its core, `ilf` (InPost Locker Finder) brings the InPost search experience di
 │   └── test_locker.py         # Tests for data parsing
 ├── pyproject.toml             # Python package metadata and dependencies
 ├── requirements.txt           # Project requirements
-├── requirements_dev.txt       # Project requirements for developers (pytest and pyinstaller)
+├── requirements_dev.txt       # Project requirements + pytest and pyinstaller
 └── README.md                  # Project documentation
 ```
 
