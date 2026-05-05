@@ -32,12 +32,12 @@ def find(
         easy_access_zone: bool = typer.Option(False, "--easy-access-zone", "-e", help="Filter by the point having the Easy Access Zone", rich_help_panel="Filtering Options"),
         json_output: bool = typer.Option(False, "--json", "-j", help="Output results in JSON format", rich_help_panel="Output Options"),
 ):
-    """Find operating InPost points in a given city. For help type **`ilf find --help`**
+    """Find operating InPost points in a given city/postal code. For help type **`ilf find --help`**
 
     This command downloads and displays all available Inpost points for the specified **city** or **postal code**.\\
     By default it sorts them by **postal code**, and **24/7** availability, displaying the first **15* results.\\
     You can use the display options (`-l`, `-a`) to control how the lockers are displayed. \\
-    The flag `-j` can be used to render the output in json for pipeability \\
+    The flag `-j` can be used to render the output in json for pipe ability \\
     You can use the **filtering flags** (`-p`, `-s`, `-e`, `-d`) to filter the results of the search. You can also use them together.\\
     The code can be **any** number of digits (first one, first two or the entire code).\\
     The street can also be **any** string, as well as the entire address.\
@@ -106,12 +106,12 @@ def find(
         if json_output:
             json_str = format_json(lockers)
             typer.echo(json_str)
-            err_console.print(f"[bold green]Success![/bold green] Found [bold]{found_lockers}[/bold] points in [cyan]{location}[/cyan].")
+            err_console.print(f"[bold green]Success![/bold green] Found [bold]{found_lockers}[/bold] points matching your filters in [cyan]{location}[/cyan].")
         else:
             print_lockers_table(lockers, location, limit=limit)
             displayed_count = min(len(lockers), limit)
             success_text = (
-                f"[bold green]Success![/bold green] Found [bold]{found_lockers}[/bold] points in [cyan]{location}[/cyan].\n"
+                f"[bold green]Success![/bold green] Found [bold]{found_lockers}[/bold] points matching your filters in [cyan]{location}[/cyan].\n"
                 f"Displaying [bold]{displayed_count}[/bold] points."
             )
             err_console.print(Panel(success_text, border_style="green", expand=False))
