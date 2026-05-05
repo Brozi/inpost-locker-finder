@@ -16,8 +16,6 @@ ilf provides power users with a friction-free, terminal-based alternative to exi
 
 ## Demo & Description
 
-[Describe your solution in detail. What does it do? How does it work? What approach did you take and why? Cover the key technical choices, architecture, and anything else that helps us understand your project without reading every line of code.]
-
 **What does it do:**  
 At its core, `ilf` (InPost Locker Finder) brings the InPost search experience directly into the terminal. Specifically, it allows users to:
 - **Search by Location:** Find operating lockers using either a city name (e.g., `Kraków`) or a postal code (e.g., `31-876`).
@@ -25,6 +23,8 @@ At its core, `ilf` (InPost Locker Finder) brings the InPost search experience di
 - **View Beautiful Data:** Display key point details (including the **Locker ID**, **exact address**, **location description**, **opening hours** as well as a **Google Maps** link) in a clean, color-coded, and responsive terminal table. 
 - **Limit the output:** Specify how many points to display using `--limit x`, or display all using `--all`: for example `--limit 20`.
 - **Integrate & Pipe:** Output raw data in JSON format (`--json`), allowing developers to easily pipe the results into other command-line tools like `jq` or `grep`.
+### Demo
+
 
 **How it works:**
 1. **Input Parsing:** The user types a simple command (e.g., `ilf find Kraków`). The app determines if the input is a postal code or a city name.
@@ -63,13 +63,7 @@ At its core, `ilf` (InPost Locker Finder) brings the InPost search experience di
 **Key Technical Choices:**
 - **Strict Error Handling:** The app gracefully handles network errors, API downtime, and empty search results, displaying human-readable error panels and returning appropriate system exit codes for scripting.
 - **Modular Design:** The CLI logic, API fetching, data models, and output formatting are completely separated into different files, adhering to the Single Responsibility Principle.
-- **CLI framework Choice:** The app uses Typer instead of Click, as the former enables much more rapid development and integrates extremely well with Rich tables and formatting. Moreover, it's a more modern solution, and it supports type hinting, making the code self documenting as well as easier to read. 
-
-If applicable, include:
-- a link to the deployed solution
-- screenshots of the UI or key outputs
-- a short screen recording or demo video
-
+- **CLI framework Choice:** The app uses Typer instead of Click, as the former enables much more rapid development and integrates extremely well with Rich tables and formatting. Moreover, it's a more modern solution, and it supports type hinting, making the code self documenting as well as easier to read.
 
 
 ## Technologies
