@@ -1,3 +1,5 @@
+import requests.exceptions
+from requests.exceptions import ConnectionError, HTTPError
 from ilf.format import print_lockers_table, format_json
 from ilf.api import InPostFetcher
 from ilf.locker import Locker
@@ -7,9 +9,10 @@ from ilf import __app_name__, __version__
 from typing import Optional
 from rich.console import Console
 from rich.panel import Panel
+import typer
 err_console = Console(stderr=True)
 console = Console()
-import typer
+
 
 app = typer.Typer(no_args_is_help=True,
                   context_settings={"help_option_names": ["-h", "--help"]},
@@ -118,6 +121,18 @@ def find(
     except typer.Exit:
 
         raise
+
+    except requests.exceptions.ConnectionError:
+        err_console.print(
+            Panel(ERROR_MESSAGES[ExitCode.NETWORK_ERROR] + f": {e}", title="Server Error", border_style="red"))
+        raise typer.Exit(code=ExitCode.NETWORK_ERROR)
+
+
+    except requests.exceptions.HTTPError as e:
+        err_console.print(
+            Panel(ERROR_MESSAGES[ExitCode.API_ERROR] + f": {e}", title="Server Error", border_style="red"))
+        raise typer.Exit(code=ExitCode.API_ERROR)
+
 
     except Exception:
         err_console.print(Panel(ERROR_MESSAGES[ExitCode.UNEXPECTED_ERROR], title="Unexpected Error", border_style="red"))
