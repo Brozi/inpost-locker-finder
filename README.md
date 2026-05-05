@@ -23,9 +23,18 @@ At its core, `ilf` (InPost Locker Finder) brings the InPost search experience di
 - **View Beautiful Data:** Display key point details (including the **Locker ID**, **exact address**, **location description**, **opening hours** as well as a **Google Maps** link) in a clean, color-coded, and responsive terminal table. 
 - **Limit the output:** Specify how many points to display using `--limit x`, or display all using `--all`: for example `--limit 20`.
 - **Integrate & Pipe:** Output raw data in JSON format (`--json`), allowing developers to easily pipe the results into other command-line tools like `jq` or `grep`.
+- **Use the help menu when in doubt:** The app has a well-built and categorized help menu. All the information needed to use the program is available in `ilf --help`, and `ilf find --help`. Empty arguments work as well.
 ### See it in action
 
-**1. Basic Search**
+
+**1.Rich Help Documentation**
+
+The application is fully self-documented. By running `ilf find --help`, users get a beautifully formatted manual showing all available arguments, filtering flags, and usage examples.\
+\
+<img width="1089" height="844" alt="image" src="https://github.com/user-attachments/assets/3ef7c76b-766d-4551-b0ce-c175d5b8badd" />
+
+
+**2. Basic Search**
 
 Finding lockers in a city is as simple as typing its name. The app automatically handles formatting and crops the output to a default of 15 available points to avoid flooding the terminal. The points are sorted by the postal code and 24/7 availability.\
 \
@@ -37,13 +46,13 @@ Finding lockers in a city is as simple as typing its name. The app automatically
 
 
 
-**2. Smart Filtering & Partial Matches**
+**3. Smart Filtering & Partial Matches**
 
 You can chain multiple filters together. Here, we are searching within a specific postal code area (`31-064`), looking for a partial street name (`kaszt`), and filtering for `24/7` availability. \
 \
 <img width="1106" height="256" alt="image" src="https://github.com/user-attachments/assets/b1949051-57a6-4958-bf18-f915cd359011"/>
 
-**3. Graceful Error Handling**
+**4. Graceful Error Handling**
 
 If a city doesn't exist or the API fails, the app doesn't crash with an ugly Python traceback. It provides a clean, human-readable error panel.\
 \
