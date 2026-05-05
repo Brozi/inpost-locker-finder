@@ -25,6 +25,52 @@ If applicable, include:
 ## How to run
 
 ### Prerequisites
+- Python 3.9 or higher installed on your system.
+
+### Installation Steps
+
+**1. Clone the repository**
+```bash
+git clone https://github.com/Brozi/inpost-locker-finder.git
+cd inpost-locker-finder
+```
+
+**2. Create and activate a virtual environment (Recommended)**
+To keep the dependencies isolated, create a virtual environment inside the project folder:
+
+*On Windows:*
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
+
+*On macOS/Linux:*
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+**3. Install the application**
+Install the package in editable mode. This automatically installs all required dependencies (Typer, Rich, Requests) and registers the global `ilf` command.
+```bash
+pip install -e .
+```
+
+### Running the Application
+
+Once installed, you can use the `ilf` command directly in your terminal.
+
+**Search for lockers:**
+```bash
+ilf find Kraków
+ilf find "ul. Długa"
+ilf find 32-064
+```
+
+**View the help menu:**
+```bash
+ilf --help
+```
 
 [List everything needed to build and run your solution — language version, tools, system dependencies, etc.]
 
