@@ -30,13 +30,15 @@ def find(
         easy_access_zone: bool = typer.Option(False, "--easy-access-zone", "-e", help="Filter by the point having the Easy Access Zone", rich_help_panel="Filtering Options"),
         json_output: bool = typer.Option(False, "--json", "-j", help="Output results in JSON format", rich_help_panel="Output Options"),
 ):
-    """Find operating Inpost lockers in a given city.
+    """Find operating InPost points in a given city. For help type **`ilf find --help`**
 
-    This command downloads all available Inpost lockers for the specified city.\\
-    By default it sorts them by postal code, and 24/7 availability, displaying the first 3 results.\\
-    You can use the filtering flags (-p, -s) to filter the results of the search. You can also use them together.\\
-    The code can be any number of digits (first one, first two or the entire code).\\
-    The street can also be any string, as well as the entire address.\
+    This command downloads and displays all available Inpost points for the specified **city** or **postal code**.\\
+    By default it sorts them by **postal code**, and **24/7** availability, displaying the first **15* results.\\
+    You can use the display options (`-l`, `-a`) to control how the lockers are displayed. \\
+    The flag `-j` can be used to render the output in json for pipeability \\
+    You can use the **filtering flags** (`-p`, `-s`, `-e`, `-d`) to filter the results of the search. You can also use them together.\\
+    The code can be **any** number of digits (first one, first two or the entire code).\\
+    The street can also be **any** string, as well as the entire address.\
     """
     """
     :param city: the name of the city to find lockers for
@@ -57,7 +59,7 @@ def find(
         # if search city empty, api_post_code is post_code
         # this allows the program to query the endpoint based on post_code
         # improves speed
-        with err_console.status("[bold yellow]Fetching lockers from InPost...[/bold yellow]", spinner="dots"):
+        with err_console.status("[bold yellow]Fetching points from InPost...[/bold yellow]", spinner="dots"):
             lockers = fetcher.get_operating_lockers(city=search_city, post_code=api_post_code)
 
         if not lockers:
@@ -102,12 +104,12 @@ def find(
         if json_output:
             json_str = format_json(lockers)
             typer.echo(json_str)
-            err_console.print(f"[bold green]Success![/bold green] Found [bold]{found_lockers}[/bold] lockers in [cyan]{location}[/cyan].")
+            err_console.print(f"[bold green]Success![/bold green] Found [bold]{found_lockers}[/bold] points in [cyan]{location}[/cyan].")
         else:
             print_lockers_table(lockers, location, limit=limit)
             displayed_count = min(len(lockers), limit)
             success_text = (
-                f"[bold green]Success![/bold green] Found [bold]{found_lockers}[/bold] lockers in [cyan]{location}[/cyan].\n"
+                f"[bold green]Success![/bold green] Found [bold]{found_lockers}[/bold] points in [cyan]{location}[/cyan].\n"
                 f"Displaying [bold]{displayed_count}[/bold] lockers."
             )
             err_console.print(Panel(success_text, border_style="green", expand=False))

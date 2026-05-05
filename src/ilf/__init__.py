@@ -25,8 +25,8 @@ class ExitCode(IntEnum):
 
 ERROR_MESSAGES = {
     ExitCode.API_ERROR: f"[bold red]The InPost server returned an unexpected response[/bold red]",
-    ExitCode.NO_RESULTS: f"[bold red]No lockers were found within given parameters[/bold red]",
-    ExitCode.NO_RESULTS_FROM_FILTERING: f"[bold yellow]Found lockers, but none matched your filters[/bold yellow]",
+    ExitCode.NO_RESULTS: f"[bold red]No points were found within given parameters[/bold red]",
+    ExitCode.NO_RESULTS_FROM_FILTERING: f"[bold yellow]Found points, but none matched your filters[/bold yellow]",
     ExitCode.HINT: "[bold yellow]Hint: When searching without a city, partial postal codes are not supported. Make sure you entered a full postal code.[/bold yellow]",
     ExitCode.NETWORK_ERROR: f"[bold red]Could not connect to the internet. Please check your internet connection and try again[/bold red]",
     ExitCode.UNEXPECTED_ERROR: f"[bold red]Unexpected error occured. Please report it on GitHub Issues[/bold red]",
