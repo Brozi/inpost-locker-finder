@@ -110,7 +110,7 @@ def find(
             displayed_count = min(len(lockers), limit)
             success_text = (
                 f"[bold green]Success![/bold green] Found [bold]{found_lockers}[/bold] points in [cyan]{location}[/cyan].\n"
-                f"Displaying [bold]{displayed_count}[/bold] lockers."
+                f"Displaying [bold]{displayed_count}[/bold] points."
             )
             err_console.print(Panel(success_text, border_style="green", expand=False))
         raise typer.Exit(code=ExitCode.SUCCESS)
