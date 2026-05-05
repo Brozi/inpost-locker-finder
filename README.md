@@ -47,7 +47,8 @@ You can chain multiple filters together. Here, we are searching within a specifi
 
 If a city doesn't exist or the API fails, the app doesn't crash with an ugly Python traceback. It provides a clean, human-readable error panel.\
 \
-<img width="1106" height="201" alt="image" src="https://github.com/user-attachments/assets/22bf867f-5eff-4045-9f5c-a38087f36294" />
+<img width="1106" height="121" alt="image" src="https://github.com/user-attachments/assets/b46d27e5-bf94-4cbc-a3c6-d8e214169ec7" />
+
 
 
 
