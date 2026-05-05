@@ -23,7 +23,7 @@ fetcher = InPostFetcher()
              epilog="**Examples:**\n\n\n\n* `ilf find Kraków` (Finds default amount of lockers)\n\n\n\n* `ilf find 31-876 --24h` (Finds 24/7 lockers in a specific postal code)\n\n\n\n* `ilf find Warszawa -s \"Złota\" --all` (Finds all lockers on Złota street)"
              )
 def find(
-        location:Optional[str] = typer.Argument(help="The name of the city or the postal code to search"),
+        location:Optional[str] = typer.Argument(help="The name of the city or the postal code to search", metavar="TEXT: CITY/POSTCODE"),
         limit: int = typer.Option(15, "--limit", "-l", help="Number of lockers to display. **Example:** `--limit 10`", rich_help_panel="Display Options"),
         show_all: bool = typer.Option(False, "--all", "-a", help="Show all lockers found", rich_help_panel="Display Options"),
         post_code: str = typer.Option(None, "--post-code", "-p", help="Filter by postal code. **Example:** `--post-code 30`, `--post-code 31-876`", rich_help_panel="Filtering Options"),
