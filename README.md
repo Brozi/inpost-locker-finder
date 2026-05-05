@@ -72,6 +72,50 @@ ilf find 32-064
 ilf --help
 ```
 
+## Standalone Executables
+
+If you prefer not to install the Python package, you can run the application as a compiled, standalone executable.
+
+### Using Pre-built Releases
+Pre-built binaries are generated automatically via GitHub Actions. You can download them from the **[Releases](../../releases)** page.
+
+**On Windows:**
+Open Command Prompt or PowerShell, navigate to the folder with the downloaded file, and run:
+```cmd
+.\ilf-windows.exe find Kraków
+```
+
+**On macOS / Linux:**
+You must grant execute permissions to the file before running it from the terminal:
+```bash
+chmod +x ilf-linux    # or ilf-macos
+./ilf-linux find Kraków
+```
+
+### Building Your Own Executable
+You can bundle the application into a single executable file yourself using `PyInstaller`. Ensure you are inside your activated virtual environment.
+
+**1. Install PyInstaller:**
+```bash
+pip install pyinstaller
+```
+
+**2. Build the binary:**
+```bash
+pyinstaller --name ilf --onefile src/ilf/__main__.py
+```
+
+**3. Run your built executable:**
+The compiled file will be generated inside the `dist/` folder.
+*On Windows:*
+```cmd
+.\dist\ilf.exe find Kraków
+```
+*On macOS/Linux:*
+```bash
+./dist/ilf find Kraków
+```
+
 [List everything needed to build and run your solution — language version, tools, system dependencies, etc.]
 
 ### Build & run
