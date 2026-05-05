@@ -1,5 +1,9 @@
-from unittest.mock import patch
+from unittest.mock import patch, Mock
+import pytest
+import requests
+from ilf import ERROR_MESSAGES, ExitCode
 from ilf.api import InPostFetcher,Locker
+fetcher = InPostFetcher()
 MOCK_RESPONSE = {
     "items": [
         {
@@ -26,7 +30,7 @@ MOCK_RESPONSE = {
     ]
 }
 
-@patch("src.ilf.api.requests.get")
+@patch("ilf.api.requests.get")
 #when the function runs, find get_lockers and replace it with a dummy object
 def test_get_lockers(mock_get_lockers):
     #pass the dummy object into the function as mock_get_lockers
@@ -35,7 +39,6 @@ def test_get_lockers(mock_get_lockers):
     mock_get_lockers.return_value.json.return_value = MOCK_RESPONSE
     #When the code calls get_lockers dont connect to the internet, but
     #just go with MOCK_RESPONSE
-    fetcher = InPostFetcher()
     #initialize an instance of the InPostFetcher class
     result = fetcher.get_operating_lockers("Pisary")
     #act - call the real function and give it the MOCK_RESPONSE
@@ -56,3 +59,31 @@ def test_get_lockers(mock_get_lockers):
     )
     #check whether the actual api.py built the dictionary with the string "Pisary",
     #before sending it to BASE_URL
+@patch("ilf.api.requests.get")
+def test_api_server_down(mock_get):
+    """
+    Test whether the program responds correctly when the server request returns code 500
+    :param mock_get:
+    :return:
+    """
+    mock_response = Mock()
+    mock_response.raise_for_status.side_effect = requests.exceptions.HTTPError("500 Server Error")
+    mock_get.return_value = mock_response
+
+    with pytest.raises(requests.exceptions.HTTPError):
+        fetcher.get_operating_lockers("Kraków")
+
+@patch("ilf.api.requests.get")
+def test_api_malformed_response(mock_get):
+    """Test whether the program responds correctly when the server request returns unexpected json response"""
+    # Setup the mock to return weird JSON without the 'items' list
+    mock_response = Mock()
+    mock_response.json.return_value = {
+        "weird_unexpected_key": "hello",
+        "total_pages": 1
+    }
+    mock_get.return_value = mock_response
+
+    lockers = fetcher.get_operating_lockers(city="Kraków")
+    assert lockers == []
+    assert len(lockers) == 0

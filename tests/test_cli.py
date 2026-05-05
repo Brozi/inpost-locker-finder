@@ -1,11 +1,15 @@
 from typer.testing import CliRunner
+from unittest.mock import patch
 import click
+import requests
+from rich.panel import Panel
 
-from ilf import __app_name__, __version__, cli
+
 from ilf.cli import app
 from ilf.locker import Locker
+from ilf import ExitCode, ERROR_MESSAGES
 
-from unittest.mock import patch
+
 
 runner = CliRunner()
 
@@ -25,24 +29,6 @@ MOCK_LOCKERS = [
     )
 ]
 
-# def test_version():
-#     """Test that the version command actually works"""
-#     result = runner.invoke(app, ['--version'])
-#
-#     assert result.exit_code == 0
-#     assert f"{__app_name__} v{__version__}" in result.stdout
-
-# def test_help():
-#     """Test help command"""
-#     result = runner.invoke(app, ['--help'], prog_name=__app_name__)
-#     assert result.exit_code == 0
-#
-#     stdout = click.unstyle(result.stdout)
-#
-#     assert f"Usage: {__app_name__}" in stdout
-#
-#     assert "inpost lockers" in stdout
-
 @patch("ilf.cli.fetcher.get_operating_lockers")
 def test_find_success(mock_get_operating_lockers):
     """Test find command success"""
@@ -55,3 +41,24 @@ def test_find_success(mock_get_operating_lockers):
     assert "PIS02" in stdout
 
     assert "Kasztanowa" in stdout
+
+@patch("ilf.cli.fetcher.get_operating_lockers")
+def test_cli_network_error(mock_get_operating_lockers):
+    mock_get_operating_lockers.side_effect = requests.exceptions.ConnectionError("No DNS")
+
+    result = runner.invoke(app, ['find', 'Pisary'])
+    assert result.exit_code == 4
+
+    assert "Network Error" in result.stderr
+
+
+@patch("ilf.cli.fetcher.get_operating_lockers")
+def test_cli_api_error(mock_get_operating_lockers):
+    mock_get_operating_lockers.side_effect = requests.exceptions.HTTPError("500 Server Error")
+
+    result = runner.invoke(app, ['find', 'Pisary'])
+
+    assert result.exit_code == 1
+
+    assert "Server Error" in result.stderr
+
