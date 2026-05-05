@@ -76,7 +76,7 @@ def find(
             raise typer.Exit(code=ExitCode.NO_RESULTS)
 
         lockers, found_lockers = _filter_and_sort_lockers(lockers,
-                                           search_postcode,
+                                           post_code,
                                            street,
                                            limit,
                                            show_all,
@@ -89,7 +89,7 @@ def find(
                 street=street
             )
             #if there are no lockers after filtering
-            err_console.print(Panel(f"[yellow][underline]{search_city}[/underline]: "
+            err_console.print(Panel(f"[yellow][underline]{location}[/underline]: "
                                     f"{ERROR_MESSAGES[ExitCode.NO_RESULTS_FROM_FILTERING]}: "
                                     f"[italic]{params_str}[/italic][/yellow]",
                         title="Search Failed",
@@ -131,13 +131,14 @@ def _filter_and_sort_lockers(lockers: list[Locker],
 ) -> tuple[list[Locker], int]:
 
     if easy_access_zone:
-        lockers = [locker for locker in lockers if locker.easy_access_zone]
+        lockers = [locker for locker in lockers if locker.easy_access_zone == "Yes"]
 
     if location_247:
         lockers = [locker for locker in lockers if "24/7" in locker.opening_hours]
 
     if post_code:
         lockers = [locker for locker in lockers if locker.address_details_post_code.startswith(post_code)]
+
 
     if street:
         lockers = [locker for locker in lockers if street.lower() in locker.address_details_street.lower()]
