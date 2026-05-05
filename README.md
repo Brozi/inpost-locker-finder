@@ -22,7 +22,7 @@ If applicable, include:
 
 [List the technologies, frameworks, and libraries you used. You can also explain why you decided to use them.]
 
-## How to run
+## Build and run
 
 ### Prerequisites
 - Python 3.9 or higher installed on your system.
@@ -82,14 +82,20 @@ Pre-built binaries are generated automatically via GitHub Actions. You can downl
 **On Windows:**
 Open Command Prompt or PowerShell, navigate to the folder with the downloaded file, and run:
 ```cmd
-.\ilf-windows.exe find Kraków
+.\ilf.exe find Kraków
 ```
 
 **On macOS / Linux:**
 You must grant execute permissions to the file before running it from the terminal:
 ```bash
-chmod +x ilf-linux    # or ilf-macos
-./ilf-linux find Kraków
+# Rename the file (use mv ilf-macos ilf if on Mac)
+mv ilf-linux ilf
+
+# Make it executable
+chmod +x ilf
+
+# Run the app directly!
+./ilf find Kraków
 ```
 
 ### Building Your Own Executable
@@ -115,8 +121,6 @@ The compiled file will be generated inside the `dist/` folder.
 ```bash
 ./dist/ilf find Kraków
 ```
-
-[List everything needed to build and run your solution — language version, tools, system dependencies, etc.]
 
 ### Build & run
 

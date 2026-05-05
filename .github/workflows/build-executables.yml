@@ -20,7 +20,7 @@ jobs:
             asset_name: ilf-linux
           - os: windows-latest
             artifact_name: ilf.exe
-            asset_name: ilf-windows.exe
+            asset_name: ilf.exe
           - os: macos-latest
             artifact_name: ilf
             asset_name: ilf-macos
@@ -42,11 +42,6 @@ jobs:
     - name: Build with PyInstaller
       run: |
         pyinstaller --name ilf --onefile src/ilf/__main__.py
-
-    - name: Rename asset
-      shell: bash
-      run: |
-        mv dist/${{ matrix.artifact_name }} dist/${{ matrix.asset_name }}
 
     - name: Upload artifact to GitHub Release
       uses: softprops/action-gh-release@v1
