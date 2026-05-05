@@ -23,7 +23,36 @@ At its core, `ilf` (InPost Locker Finder) brings the InPost search experience di
 - **View Beautiful Data:** Display key point details (including the **Locker ID**, **exact address**, **location description**, **opening hours** as well as a **Google Maps** link) in a clean, color-coded, and responsive terminal table. 
 - **Limit the output:** Specify how many points to display using `--limit x`, or display all using `--all`: for example `--limit 20`.
 - **Integrate & Pipe:** Output raw data in JSON format (`--json`), allowing developers to easily pipe the results into other command-line tools like `jq` or `grep`.
-### Demo
+### See it in action
+
+**1. Basic Search**
+
+Finding lockers in a city is as simple as typing its name. The app automatically handles formatting and crops the output to a default of 15 available points to avoid flooding the terminal. The points are sorted by the postal code and 24/7 availability.\
+\
+<img width="1094" height="524" alt="image" src="https://github.com/user-attachments/assets/7166a1c6-ebc6-42f6-bd90-0112a0107263" />
+<img width="1093" height="510" alt="image" src="https://github.com/user-attachments/assets/846da435-a0a7-4abf-9473-ce7a599c7b42" />
+
+
+
+
+
+
+**2. Smart Filtering & Partial Matches**
+
+You can chain multiple filters together. Here, we are searching within a specific postal code area (`31-064`), looking for a partial street name (`kaszt`), and filtering for `24/7` availability. \
+\
+<img width="1106" height="256" alt="image" src="https://github.com/user-attachments/assets/b1949051-57a6-4958-bf18-f915cd359011"/>
+
+**3. Graceful Error Handling**
+
+If a city doesn't exist or the API fails, the app doesn't crash with an ugly Python traceback. It provides a clean, human-readable error panel.\
+\
+<img width="1106" height="201" alt="image" src="https://github.com/user-attachments/assets/22bf867f-5eff-4045-9f5c-a38087f36294" />
+
+
+
+
+
 
 
 **How it works:**
