@@ -1,11 +1,10 @@
-import requests.exceptions
-from requests.exceptions import ConnectionError, HTTPError
 from ilf.format import print_lockers_table, format_json
 from ilf.api import InPostFetcher
 from ilf.locker import Locker
 from ilf import ExitCode, ERROR_MESSAGES
 from ilf import __app_name__, __version__
 
+import requests.exceptions
 from typing import Optional
 from rich.console import Console
 from rich.panel import Panel
@@ -124,7 +123,7 @@ def find(
 
     except requests.exceptions.ConnectionError:
         err_console.print(
-            Panel(ERROR_MESSAGES[ExitCode.NETWORK_ERROR] + f": {e}", title="Server Error", border_style="red"))
+            Panel(ERROR_MESSAGES[ExitCode.NETWORK_ERROR], title="Network Error", border_style="red"))
         raise typer.Exit(code=ExitCode.NETWORK_ERROR)
 
 
