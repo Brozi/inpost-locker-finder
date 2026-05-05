@@ -7,7 +7,16 @@
 
 ## Overview
 
-[In 2–3 sentences, describe what you built. What does it do? What problem does it solve or what question does it answer?]
+InPost Locker Finder (`ilf`) is a fast, 
+user-friendly Command Line Interface (CLI) application that helps 
+users locate InPost lockers (Paczkomat) and points across Poland directly from 
+their terminal. It streamlines the process of finding operating points by 
+allowing users to search by city or postal code, and instantly 
+filter results by street, 24/7 availability, or Easy Access Zones. 
+Its main advantage over already existing solutions is the reduced friction for 
+advanced power users in the task of finding a suitable InPost point. Users can do so right 
+from the comfort of their terminal, without needing to "click through" multiple menus.
+
 
 ## Demo & Description
 
