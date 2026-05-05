@@ -14,7 +14,7 @@ def print_lockers_table(lockers: list[Locker], location: str, limit: int = 3 ) -
     """
     console = Console()
 
-    table = Table(title=f"Closest InPost Lockers in {location.title()}", show_lines=True)
+    table = Table(title=f"InPost Points in [underline]{location.title()}[/underline]", show_lines=True, title_style="bold")
     table.add_column("Point ID", style="cyan", no_wrap=True)
     table.add_column("Status", justify="center")
     table.add_column("Address")
