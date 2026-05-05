@@ -21,7 +21,7 @@ def print_lockers_table(lockers: list[Locker], location: str, limit: int = 3 ) -
     table.add_column("Location Description", style="dim")
     table.add_column("Easy Access?", justify="center")
     table.add_column("Hours", justify="center")
-    table.add_column("Map", style="blue")
+    table.add_column("Map", style="bold cyan")
 
 
 
