@@ -20,6 +20,12 @@ classifiers = [
     "Environment :: Console",
 ]
 
+dependencies = [
+    "typer",
+    "rich",
+    "requests"
+]
+
 [project.scripts]
 
 ilf = "ilf.cli:app"
