@@ -82,7 +82,7 @@ def find(
             else:
                 params_str = _build_params_string(
                     location=search_city,
-                    post_code=api_post_code,
+                    post_code=post_code,
                     street=street
                 )
                 err_console.print(Panel(f"{ERROR_MESSAGES[ExitCode.NO_RESULTS]}: {params_str}",title="Search Failed", border_style="red"))
@@ -183,8 +183,9 @@ def _build_params_string(**kwargs) -> str:
     active_params = []
     for key, value in kwargs.items():
         if value:
-            active_params.append(f"{key}='{value}'")
-    return ",".join(active_params)
+            key = key.replace("_", " ").title()
+            active_params.append(f"{key}: [bold]{value}[/bold]")
+    return ", ".join(active_params)
 
 
 
