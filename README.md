@@ -7,8 +7,8 @@
 
 ## Overview
 
-InPost Locker Finder (`ilf`) is a high-speed CLI application that enables users to 
-locate Polish InPost points and lockers directly from their terminal. The tool 
+InPost Locker Finder (`ilf`) is a high-speed Python CLI application that enables users to 
+locate InPost points and lockers directly from their terminal. The tool 
 streamlines searches by city or postal code, featuring filters for 24/7 availability, 
 specific streets, and Easy Access Zones. By eliminating complex menu navigation, 
 ilf provides power users with a friction-free, terminal-based alternative to existing solutions.
