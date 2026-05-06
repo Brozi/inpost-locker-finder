@@ -4,7 +4,11 @@ on:
     types: [published]
 
 jobs:
+  call-tests:
+    uses: ./.github/workflows/tests.yml
+
   pypi-publish:
+    needs: call-tests
     name: Upload release to PyPI
     runs-on: ubuntu-latest
     environment:

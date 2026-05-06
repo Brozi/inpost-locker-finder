@@ -6,8 +6,11 @@ on:
 
 
 jobs:
+  call-tests:
+    uses: ./.github/workflows/tests.yml
   build:
     name: Build on ${{ matrix.os }}
+    needs: call-tests
     runs-on: ${{ matrix.os }}
     permissions:
       contents: write
