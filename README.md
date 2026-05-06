@@ -48,7 +48,7 @@ Finding lockers in a city is as simple as typing its name. The app automatically
 
 **3. Smart Filtering & Partial Matches**
 
-You can chain multiple filters together. Here, we are searching within a specific postal code area (`31-064`), looking for a partial street name (`kaszt`), and filtering for `24/7` availability. \
+You can chain multiple filters together. Here, we are searching within a specific postal code area (`32-064`), looking for a partial street name (`kaszt`), and filtering for `24/7` availability. \
 \
 <img width="1106" height="256" alt="image" src="https://github.com/user-attachments/assets/b1949051-57a6-4958-bf18-f915cd359011"/>
 
