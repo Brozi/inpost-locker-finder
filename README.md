@@ -207,7 +207,7 @@ The compiled file will be generated inside the `dist/` folder.
 
 
 
-If you prefer installation from PyPI (for example with pip install), 
+If you prefer installation from PyPI (for example with `pip install`), 
 the app is available on [PyPI](https://pypi.org/project/inpost-locker-finder/) too.
 ### Installation steps
 **1. Create a separate project folder for the virtual environment**
