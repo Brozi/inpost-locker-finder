@@ -137,7 +137,7 @@ def find(
 
         displayed_count = min(len(lockers), limit)
         if json_output:
-            json_str = format_json(lockers)
+            json_str = format_json(lockers, displayed_count)
             typer.echo(json_str)
             err_console.print(f"[bold green]Success![/bold green] Found [bold]{found_lockers}[/bold] points matching your filters in [cyan]{location}[/cyan].\nJSON Output: {displayed_count} points")
         else:

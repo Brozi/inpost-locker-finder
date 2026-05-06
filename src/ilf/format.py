@@ -53,17 +53,24 @@ def print_lockers_table(lockers: list[Locker], location: str, limit: int = 3 ) -
     console.print(table)
 
 
-def format_json(lockers: list[Locker]) -> str:
+def format_json(lockers: list[Locker], limit) -> str:
     """Prints the lockers as a json string for piping"""
-    lockers_dict = [{
-        "name": locker.name,
-        "status": locker.status,
-        "address": locker.address,
-        "location_description": locker.location_description,
-        "easy_access_zone": str(locker.easy_access_zone),
-        "opening_hours": locker.opening_hours,
-        "maps_link": locker.build_map_link
+    payload = {
+        "metadata": {
+            "total_found" : len(lockers),
+            "limit" : limit
+        },
+        "lockers": [
+            {
+                "name": locker.name,
+                "status": locker.status,
+                "address": locker.address,
+                "location_description": locker.location_description,
+                "easy_access_zone": locker.easy_access_zone,
+                "opening_hours": locker.opening_hours,
+                "maps_link": locker.build_map_link
+            }
+            for locker in lockers
+        ]
     }
-    for locker in lockers
-    ]
-    return json.dumps(lockers_dict, indent=2)
+    return json.dumps(payload)
