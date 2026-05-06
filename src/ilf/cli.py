@@ -8,7 +8,10 @@ import requests.exceptions
 from typing import Optional
 from rich.console import Console
 from rich.panel import Panel
+
 import typer
+import sys
+import locale
 err_console = Console(stderr=True)
 console = Console()
 
@@ -23,7 +26,7 @@ fetcher = InPostFetcher()
              epilog="**Examples:**\n\n\n\n* `ilf find Kraków` (Finds default amount of lockers)\n\n\n\n* `ilf find 31-876 --24h` (Finds 24/7 lockers in a specific postal code)\n\n\n\n* `ilf find Warszawa -s \"Złota\" --all` (Finds all lockers on Złota street)"
              )
 def find(
-        location:Optional[str] = typer.Argument(help="The name of the city or the postal code to search", metavar="TEXT: CITY/POSTCODE"),
+        location:Optional[str] = typer.Argument(None, help="The name of the city or the postal code to search", metavar="TEXT: CITY/POSTCODE", show_default=False, ),
         limit: int = typer.Option(15, "--limit", "-l", help="Number of lockers to display. **Example:** `--limit 10`", rich_help_panel="Display Options"),
         show_all: bool = typer.Option(False, "--all", "-a", help="Show all lockers found", rich_help_panel="Display Options"),
         post_code: str = typer.Option(None, "--post-code", "-p", help="Filter by postal code. **Example:** `--post-code 30`, `--post-code 31-876`", rich_help_panel="Filtering Options"),
@@ -48,6 +51,24 @@ def find(
     :param show_all: flag to show all lockers found
     :param post_code: filter lockers by postal code
     """
+    if not location:
+        if not sys.stdin.isatty():
+            raw_data = sys.stdin.buffer.read()
+
+            try:
+                # 2. Try decoding as UTF-8 (with BOM support)
+                location = raw_data.decode('utf-8-sig').strip()
+            except UnicodeDecodeError:
+                # 3. Fallback: Use the system's local codepage (e.g., CP1250 in Poland)
+                # This fixes the error when files are saved in legacy Windows formats
+                location = raw_data.decode(locale.getpreferredencoding(), errors='replace').strip()
+        else:
+            err_console.print(
+                Panel(f"{ERROR_MESSAGES[ExitCode.NO_ARG]}",title="Command Failed", border_style="red", expand=False))
+            raise typer.Exit(code=ExitCode.NO_ARG)
+
+
+
     location = location.title()
     search_city = None
     search_postcode = post_code
@@ -74,10 +95,12 @@ def find(
                 if len(api_post_code) < 5:
                     err_console.print(Panel(f"{ERROR_MESSAGES[ExitCode.NO_RESULTS]}: {params_str}\n{ERROR_MESSAGES[ExitCode.HINT]}",
                                         title="Search Failed", border_style="red", expand=False))
+                    raise typer.Exit(code=ExitCode.NO_RESULTS)
                 else:
                     err_console.print(
                         Panel(f"{ERROR_MESSAGES[ExitCode.NO_RESULTS]}: {params_str}",
                               title="Search Failed", border_style="red", expand=False))
+                    raise typer.Exit(code=ExitCode.NO_RESULTS)
 
             else:
                 params_str = _build_params_string(

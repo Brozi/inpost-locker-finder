@@ -21,6 +21,7 @@ class ExitCode(IntEnum):
     NETWORK_ERROR = 4
     UNEXPECTED_ERROR = 5
     HINT = 6
+    NO_ARG = 7
 #defining error codes
 
 ERROR_MESSAGES = {
@@ -30,5 +31,6 @@ ERROR_MESSAGES = {
     ExitCode.HINT: "[bold yellow]Hint: When searching without a city, partial postal codes are not supported. Make sure you entered a full postal code.[/bold yellow]",
     ExitCode.NETWORK_ERROR: f"[bold red]Could not connect to the internet. Please check your internet connection and try again[/bold red]",
     ExitCode.UNEXPECTED_ERROR: f"[bold red]Unexpected error occured. Please report it on GitHub Issues[/bold red]",
+    ExitCode.NO_ARG: f"[bold red] No argument provided - provide at least one[/bold red]"
 }
 #defining error messages for the codes
