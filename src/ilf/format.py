@@ -53,11 +53,11 @@ def print_lockers_table(lockers: list[Locker], location: str, limit: int = 3 ) -
     console.print(table)
 
 
-def format_json(lockers: list[Locker], limit) -> str:
+def format_json(lockers: list[Locker], total_found, limit) -> str:
     """Prints the lockers as a json string for piping"""
     payload = {
         "metadata": {
-            "total_found" : len(lockers),
+            "total_found" : total_found,
             "limit" : limit
         },
         "lockers": [
