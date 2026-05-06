@@ -31,38 +31,28 @@ At its core, `ilf` (InPost Locker Finder) brings the InPost search experience di
 
 The application is fully self-documented. By running `ilf find --help`, users get a beautifully formatted manual showing all available arguments, filtering flags, and usage examples.\
 \
-<img width="1089" height="844" alt="image" src="https://github.com/user-attachments/assets/3ef7c76b-766d-4551-b0ce-c175d5b8badd" />
+![](https://github.com/user-attachments/assets/3ef7c76b-766d-4551-b0ce-c175d5b8badd)
 
 
 **2. Basic Search**
 
 Finding lockers in a city is as simple as typing its name. The app automatically handles formatting and crops the output to a default of 15 available points to avoid flooding the terminal. The points are sorted by the postal code and 24/7 availability.\
 \
-<img width="1094" height="524" alt="image" src="https://github.com/user-attachments/assets/7166a1c6-ebc6-42f6-bd90-0112a0107263" />
-<img width="1093" height="510" alt="image" src="https://github.com/user-attachments/assets/846da435-a0a7-4abf-9473-ce7a599c7b42" />
-
-
-
-
+![](https://github.com/user-attachments/assets/7166a1c6-ebc6-42f6-bd90-0112a0107263)
+![](https://github.com/user-attachments/assets/846da435-a0a7-4abf-9473-ce7a599c7b42)
 
 
 **3. Smart Filtering & Partial Matches**
 
 You can chain multiple filters together. Here, we are searching within a specific postal code area (`32-064`), looking for a partial street name (`kaszt`), and filtering for `24/7` availability. \
 \
-<img width="1106" height="256" alt="image" src="https://github.com/user-attachments/assets/b1949051-57a6-4958-bf18-f915cd359011"/>
+![](https://github.com/user-attachments/assets/b1949051-57a6-4958-bf18-f915cd359011)
 
 **4. Graceful Error Handling**
 
 If a city doesn't exist or the API fails, the app doesn't crash with an ugly Python traceback. It provides a clean, human-readable error panel.\
 \
-<img width="1106" height="121" alt="image" src="https://github.com/user-attachments/assets/b46d27e5-bf94-4cbc-a3c6-d8e214169ec7" />
-
-
-
-
-
-
+![](https://github.com/user-attachments/assets/b46d27e5-bf94-4cbc-a3c6-d8e214169ec7)
 
 
 **How it works:**
@@ -119,7 +109,7 @@ If a city doesn't exist or the API fails, the app doesn't crash with an ugly Pyt
 ### Prerequisites
 - Python 3.9 or higher installed on your system.
 
-### Build & run
+### Build & run (from the source code)
 
 **1. Clone the repository**
 ```bash
@@ -151,48 +141,76 @@ registers the global `ilf` command.
 pip install -e .
 ```
 
-### Running the Application
+### Standalone Executables
 
-Once installed, you can use the `ilf` command directly in your terminal.
 
-**Search for lockers:**
-```bash
-ilf find Kraków
-ilf find 32-064
-```
 
-**View the help menu:**
-```bash
-ilf --help
-```
+If you prefer not to install the Python package, you can run the 
+application as a compiled, standalone executable.
 
-### Running the Tests
+#### **Using Pre-built Releases**
 
-To verify the application logic, you can run the automated test 
-suite using `pytest`.
-
-```bash
-# Install the testing framework
-pip install -r requirements_dev.txt
-
-# Run all tests
-pytest tests/
-```
 ---
+Pre-built binaries are generated automatically via GitHub Actions. 
+You can download them from the **[Releases](../../releases)** page.
+
+**On Windows:**
+Open Command Prompt or PowerShell, navigate to the folder with 
+the downloaded file, and run:
+```cmd
+.\ilf.exe find Kraków
+```
+
+**On macOS / Linux:**
+You must grant execute permissions to the file before running it 
+from the terminal:
+```bash
+# Rename the file (use mv ilf-macos ilf if on Mac)
+mv ilf-linux ilf
+
+# Make it executable
+chmod +x ilf
+
+# Run the app directly!
+./ilf find Kraków
+```
+
+#### **Building Your Own Executable**
+
+---
+You can bundle the application into a single executable file 
+yourself using `PyInstaller`. Ensure you are inside your activated 
+virtual environment.
+
+**1. Install PyInstaller:**
+```bash
+pip install pyinstaller
+```
+
+**2. Build the binary:**
+```bash
+pyinstaller --name ilf --onefile src/ilf/__main__.py
+```
+
+**3. Run your built executable:**
+The compiled file will be generated inside the `dist/` folder.
+*On Windows:*
+```cmd
+.\dist\ilf.exe find Kraków
+```
+*On macOS/Linux:*
+```bash
+./dist/ilf find Kraków
+```
+
+### PyPI Package
 
 
-## PyPI Package
 
 If you prefer installation from PyPI (for example with pip install), 
 the app is available on [PyPI](https://pypi.org/project/inpost-locker-finder/) too.
 ### Installation steps
 **1. Create a separate project folder for the virtual environment**
-```bash
-mkdir inpost-locker-finder
-cd inpost-locker-finder
-```
-
-*On macOS/Linux:*
 ```bash
 mkdir inpost-locker-finder
 cd inpost-locker-finder
@@ -223,7 +241,6 @@ pip install inpost-locker-finder
 
 **4. Running the application**
 Once installed, you can use the `ilf` command directly in your terminal, provided that the virtual environment is active.
-
 **Search for lockers:**
 ```bash
 ilf find Kraków
@@ -235,63 +252,21 @@ ilf find 32-064
 ilf --help
 ```
 
+### Running the Tests
+
+To verify the application logic, you can run the automated test 
+suite using `pytest` (available *ONLY* on source code installation).
+
+```bash
+# Install the testing framework
+pip install -r requirements_dev.txt
+
+# Run all tests
+pytest tests/
+```
 ---
 
-## Standalone Executables
 
-If you prefer not to install the Python package, you can run the 
-application as a compiled, standalone executable.
-
-### Using Pre-built Releases
-Pre-built binaries are generated automatically via GitHub Actions. 
-You can download them from the **[Releases](../../releases)** page.
-
-**On Windows:**
-Open Command Prompt or PowerShell, navigate to the folder with 
-the downloaded file, and run:
-```cmd
-.\ilf.exe find Kraków
-```
-
-**On macOS / Linux:**
-You must grant execute permissions to the file before running it 
-from the terminal:
-```bash
-# Rename the file (use mv ilf-macos ilf if on Mac)
-mv ilf-linux ilf
-
-# Make it executable
-chmod +x ilf
-
-# Run the app directly!
-./ilf find Kraków
-```
-
-### Building Your Own Executable
-You can bundle the application into a single executable file 
-yourself using `PyInstaller`. Ensure you are inside your activated 
-virtual environment.
-
-**1. Install PyInstaller:**
-```bash
-pip install pyinstaller
-```
-
-**2. Build the binary:**
-```bash
-pyinstaller --name ilf --onefile src/ilf/__main__.py
-```
-
-**3. Run your built executable:**
-The compiled file will be generated inside the `dist/` folder.
-*On Windows:*
-```cmd
-.\dist\ilf.exe find Kraków
-```
-*On macOS/Linux:*
-```bash
-./dist/ilf find Kraków
-```
 
 ## What I would do with more time
 
@@ -310,14 +285,3 @@ I used AI tools (Gemini / GitHub Copilot) during the development of this project
 - **Getting familiar with the frameworks**: As this was my first time using frameworks such as Rich and Typer, I've decided to use LLMs to quickly show me the basics of the syntax used in both of them.
 - **CI/CD Pipelines:** Assisting with the syntax for GitHub Actions workflows to automatically build PyInstaller binaries for different operating systems.
 - **Verification:** I verified all AI-generated code by reading the documentation for the suggested libraries (like Typer and Rich), running the test suite, and manually testing edge cases in the terminal to ensure the UX felt right.
-
-## Anything else?
-**Standalone Executables (CI/CD)**
-
-While CLI tools are usually for developers, I wanted to make this tool accessible to anyone. I set up a GitHub Actions workflow that automatically compiles the Python code into standalone binaries (`ilf.exe` for Windows, and binaries for macOS/Linux) on every release. This allows non-technical users to download and use the app instantly without needing to install Python, `pip`, or virtual environments.
-
-**Distribution as a PyPI package**
-In addition to standalone binaries, I structured the project using modern Python packaging standards (`pyproject.toml`). By configuring the `project.scripts` entry point, installing this package via `pip` automatically registers the `ilf` command globally on the user's system. This provides a seamless, native experience for developers, allowing them to install the tool and instantly use it from any directory without worrying about script paths or executable permissions.
-
-**Automated Testing Pipeline (CI)**
-To ensure code reliability and prevent regressions, I set up a Continuous Integration (CI) pipeline using GitHub Actions. On every push and pull request to the main branch, the pipeline automatically sets up the Python environment, installs dependencies, and runs the entire `pytest` suite. This guarantees that any new features or refactors do not break existing functionality or API error-handling logic.
